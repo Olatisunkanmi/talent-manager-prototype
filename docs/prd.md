@@ -1,6 +1,6 @@
 # Talent Manager: Product Requirements Document
 
-**Status:** Draft v0.3 (v0.2 challenge fixes; v0.3 adds WhatsApp and post insights)
+**Status:** Draft v0.4 (v0.2 challenge fixes; v0.3 adds WhatsApp and post insights; v0.4 adds insights date ranges, content style, talent rollup and CSV export)
 **Date:** 2026-11-09
 **Owner:** Agency admin
 
@@ -36,7 +36,7 @@ This app is the agency's financial and operational back office, organised around
 - Talent or brand login portals.
 - Multi-currency and exchange rates (Naira only; see §9).
 - A brand directory or CRM (brand details are typed per invoice; autocomplete from earlier entries is allowed).
-- Receipt or document uploads on expenses, and CSV statement exports. (A full-data backup export is a separate requirement, see §11.2.)
+- Receipt or document uploads on expenses, and CSV statement exports. (A full-data backup export is a separate requirement, see §11.2. The post insights CSV in §8.11 is an exception: it exports posts and their metrics, not financial statements.)
 - Payment gateway integration (payments are recorded manually).
 - Contract and deliverable management, content approval workflows.
 - Tax computation (VAT/WHT).
@@ -208,6 +208,7 @@ A **post** is a link to content published for a campaign.
 | platform | instagram / tiktok / youtube / other |
 | url, external_id | URL unique per campaign |
 | post_type, posted_at, label | |
+| content_style | Optional free-text tag (e.g. "Money giveaway", "Skit"); used to compare which style performs best |
 | collection_mode | api-public / api-connected / manual |
 | status | tracking / unavailable / removed |
 
@@ -366,6 +367,11 @@ For test and performance targets: up to 50 talents, 500 campaigns, 5,000 invoice
 - FR-36: The company overview has a Content performance section that respects the date, talent and campaign filters.
 - FR-37: A talent can connect an Instagram or TikTok account once through a consent link; expired tokens fall back to manual with a Reconnect prompt.
 - FR-38: Cost per 1,000 views and engagement rate are derived (definitions in the insights FRD).
+- FR-64: The Insights page filters posts by posted date: 7, 30 or 90 days, this or last quarter, this year, all time, or a custom range. The range applies to every figure on the page.
+- FR-65: Posts can carry a content style tag. The Insights page and each talent's Posts tab compare styles by engagement rate, average views, reach, likes and comments, so the agency can decide which style to make more of next quarter. It also shows reach by platform and the most liked and most commented posts.
+- FR-66: Post performance rolls up to the talent through the campaign: totals per talent across all their campaigns, a ranked Performance by talent table on the Insights page, and the same review on the talent's Posts tab.
+- FR-67: A post can be recorded with only its link (no figures), and the post table is searchable by talent, campaign, link and style, so past posts can be found without scrolling a social profile.
+- FR-68: The posts in the current Insights view (range, platform, search) can be exported as CSV with a totals row, for a quarter-end record.
 
 ### 8.12 Inquiry tracking
 - FR-39: A separately hosted intake service posts classified inquiries to the app through a signed, idempotent endpoint; the app stores no mailbox credentials and no email bodies.
