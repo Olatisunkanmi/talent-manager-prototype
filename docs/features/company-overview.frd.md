@@ -67,6 +67,9 @@ Rules:
 - **Consistency:** the numbers on the Overview must equal the sum of the per-talent and per-campaign pages for the same filters.
 - **Navigation:** every row and chart element that represents a talent, campaign or invoice links to its page.
 
+## Access and scope
+For members, every section is computed only over their assigned talents and only for sections whose owning page they have (team FRD). Company-wide totals are admin-only. A section a member cannot see is not rendered or calculated for them.
+
 ## Out of scope for v1
 Exports (CSV or PDF) of the overview, saved filter presets, forecasting beyond the simple run-rate, scheduled email reports, multi-currency totals.
 

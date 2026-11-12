@@ -7,7 +7,7 @@ Let the admin create **invoices** and **expenses** from WhatsApp, step by step, 
 
 ## Channel and access
 - Official **WhatsApp Business Cloud API** (Meta). Prerequisites: a verified business account, a dedicated number, and the webhook URL registered with Meta.
-- **Single-user authorisation:** only phone numbers on the admin's allowlist (Company settings → WhatsApp) are served. Messages from any other number get no reply and are logged.
+- **Per-user authorisation:** each allowlisted number is linked to one user and acts with that user's pages and talents (team FRD); only phone numbers on the admin's allowlist (Company settings → WhatsApp) are served. Messages from any other number get no reply and are logged.
 - Webhook requests are verified with the Meta signature header; unsigned or invalid requests are rejected. Each WhatsApp message id is processed once (`UNIQUE`), so Meta retries never create duplicates.
 - The shared auth helper (PRD §11.1) accepts either a web session or a verified allowlisted WhatsApp sender. Nothing else can reach a money action.
 - The app only **replies** inside the 24-hour customer-service window, so no pre-approved templates are needed in v1. Proactive messages (reminders, paid alerts) are out of scope.

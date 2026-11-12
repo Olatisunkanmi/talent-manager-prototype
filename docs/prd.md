@@ -2,7 +2,7 @@
 
 **Status:** Draft v0.3 (v0.2 challenge fixes; v0.3 adds WhatsApp and post insights)
 **Date:** 2026-11-09
-**Owner:** Agency admin (single user)
+**Owner:** Agency admin
 
 ---
 
@@ -32,7 +32,7 @@ This app is the agency's financial and operational back office, organised around
 
 ## 4. Non-goals (v1)
 
-- Multiple users, roles or permissions (single login).
+- Per-page view-only or edit levels, approval workflows, two-factor authentication or SSO, and per-campaign access scoping (v1 has users, an admin and member role, a page checklist and per-talent scope: see `docs/features/team.frd.md`).
 - Talent or brand login portals.
 - Multi-currency and exchange rates (Naira only; see §9).
 - A brand directory or CRM (brand details are typed per invoice; autocomplete from earlier entries is allowed).
@@ -45,11 +45,16 @@ This app is the agency's financial and operational back office, organised around
 - **Percentage commission only.** Flat-fee, fixed talent-rate and brand-pays-talent deals are not supported; they cannot be modelled without distorting the percentage.
 - A notifications centre, and proactive WhatsApp messages (reminders, alerts).
 - Talent logins. The one-time account-connect link for insights is a consent page, not a portal.
+- Note attachments, version history and notes outside a campaign.
+- Task notifications, reminders, subtasks, comments and attachments, and tasks outside a campaign.
+- Pipeline tracking for inquiries (replied, converted, linked to campaigns), and storing email bodies or attachments.
 - Third-party scraping services for post metrics; X/Twitter metrics; follower or audience analytics.
 
 ## 5. User
 
-**Agency admin (single login).** Runs the agency day to day. Creates talents, campaigns, expenses, invoices and advances, and records payouts.
+**Agency admin.** Runs the agency, creates talents, manages the team and company settings, and can do everything members can.
+
+**Team member.** A colleague invited by an admin. Sees only the pages an admin ticked and only the talents assigned to them. Creates and edits campaigns, expenses, invoices, advances, payouts, tasks and notes within that access.
 
 ## 6. Core concepts and data model
 
@@ -211,6 +216,18 @@ A **snapshot** is append-only: captured_at, views, reach, impressions, likes, co
 ### 6.11 Social account
 A talent's connected platform account used for insights: talent_id, platform, handle, encrypted token, expiry, status (connected / expired / revoked). Read-only insights access, granted by the talent through a one-time consent link. Full detail in `docs/features/insights.frd.md`.
 
+### 6.12 Mailbox and inquiry
+A **mailbox** is a registered address that receives a talent's business mail (talent_id, address, access_mode, status, last_heartbeat_at, consent confirmed date). An **inquiry** is a company's approach to a talent, logged by a separate intake service (n8n) from that mailbox: received date, sender, company, subject, short summary, confidence, thread, status (new / reviewed / dismissed), source (intake / manual). The full email body is never stored. Credentials stay in the intake service. Full detail in `docs/features/inquiries.frd.md`.
+
+### 6.13 Task and team member
+A **task** is a to-do on a campaign: title, optional assignee, optional due date, status (todo / in_progress / done), notes. Overdue is derived. A task's assignee is a real user (§6.15) who can see the campaign. Tasks hold no money. Full detail in `docs/features/tasks.frd.md`.
+
+### 6.14 Note
+A **note** is internal text on a campaign: title, type (meeting / call / general), note date, attendees, body (light Markdown), optional author label, pinned. Never shown on any brand-facing output. Full detail in `docs/features/notes.frd.md`.
+
+### 6.15 User, role and access
+A **user** is a person who signs in: name, email (unique), role (admin / member), status (invited / active / deactivated). A **member** has a **page checklist** (Overview, Talents, Campaigns, Invoices, Expenses, Advances, Payouts, Insights, Tasks, WhatsApp) and a list of **assigned talents**. Company settings and Team are admin-only. Users are invited by email link, never deleted (only deactivated), and every money record stores `created_by`. Permissions are checked on the server for every request. Full detail in `docs/features/team.frd.md`.
+
 ## 7. Money rules
 
 All money is cash basis: nothing counts until a payment is recorded.
@@ -350,8 +367,41 @@ For test and performance targets: up to 50 talents, 500 campaigns, 5,000 invoice
 - FR-37: A talent can connect an Instagram or TikTok account once through a consent link; expired tokens fall back to manual with a Reconnect prompt.
 - FR-38: Cost per 1,000 views and engagement rate are derived (definitions in the insights FRD).
 
+### 8.12 Inquiry tracking
+- FR-39: A separately hosted intake service posts classified inquiries to the app through a signed, idempotent endpoint; the app stores no mailbox credentials and no email bodies.
+- FR-40: Inquiries are logged per talent with sender, company, subject and a short summary; one inquiry per email thread.
+- FR-41: A false positive is dismissed, never deleted; the admin can add a missed inquiry manually.
+- FR-42: The talent profile has an Inquiries tab; the company overview has an Inquiries section (count, distinct companies, per talent, trend) respecting the date and talent filters.
+- FR-43: Each mailbox shows when it was last checked and a warning when it has gone quiet, so silence is not read as "no inquiries".
+- FR-44: Mailbox registration records that the talent consented to their inbox being read.
+
+### 8.13 Campaign tasks
+- FR-45: Each campaign has a Tasks tab where tasks are added, assigned, dated, reordered and moved between To do, In progress and Done.
+- FR-46: Assignees are name labels from a Team list in settings; no extra logins or roles are introduced.
+- FR-47: A Tasks page lists tasks across campaigns with filters for assignee, campaign, talent, status and due date, grouped by due date.
+- FR-48: Overdue is derived from the due date (Africa/Lagos) and status, never stored.
+- FR-49: Task templates can be added to a campaign in one step; later template edits do not change existing tasks.
+- FR-50: The company overview shows open, due-this-week and overdue task counts.
+
+### 8.14 Campaign notes
+- FR-51: Each campaign has a Notes tab where notes are added, edited, pinned and deleted, with title, type, date, attendees and body.
+- FR-52: Notes are internal only and never appear on invoices, PDFs, emails or WhatsApp messages.
+- FR-53: Notes are searchable within the campaign and from the global search.
+- FR-54: A note can start a task (title and campaign prefilled).
+- FR-55: Notes are included in the full-data backup export and in data erasure for a talent.
+
+### 8.15 Team management
+- FR-56: Admins invite members by email with name, role, page checklist and assigned talents; the invite link is single use and expires in 7 days.
+- FR-57: Members see only the pages ticked for them; each page owns its data, so numbers never appear elsewhere without the owning page.
+- FR-58: Members see only their assigned talents everywhere (lists, links, search, switcher, totals); an unassigned talent is "not found".
+- FR-59: Permissions are checked on the server on every request and take effect on the next request; deactivating a user ends their sessions immediately.
+- FR-60: There is always at least one active admin; the last one cannot be deactivated or demoted.
+- FR-61: Tasks are assigned to active users who can see the campaign; notes record the signed-in author.
+- FR-62: Every money record stores who created and who voided it, and a Team activity list records invites, access changes and deactivations.
+- FR-63: Password reset by email link exists for every user; each WhatsApp number is linked to one user and acts with that user's access.
+
 ### 8.8 Auth
-- FR-25: Single admin login (email and password). All routes and every server action require a session, or a verified allowlisted WhatsApp sender for the WhatsApp actions (§11.1).
+- FR-25: Email and password sign-in for every user. All routes and every server action require a session, or a verified allowlisted WhatsApp sender linked to a user for the WhatsApp actions (§11.1).
 
 ### 8.9 Company settings
 - FR-26: A settings page to edit company name, address, contact details, bank details, default terms, default commission and default payment-due days.
@@ -387,11 +437,12 @@ v1 is Naira (₦) only. `currency` is stored on the **campaign** (default `NGN`)
 | ORM | Drizzle |
 | Email | Resend (or equivalent with idempotency keys and webhooks) |
 | PDF | Server-rendered HTML to PDF |
-| Auth | Single admin account, session-based |
+| Auth | Users with email and password, session-based; roles, pages and talent scope checked per request (see team FRD) |
 | UI | Tailwind with a component library (shadcn/ui) |
 | WhatsApp | WhatsApp Business Cloud API (Meta), webhook receiver |
 | Social data | YouTube Data API; Instagram Graph API and TikTok API through talent-granted tokens |
 | Background jobs | Scheduled job runner for metric refresh and token renewal (for example Vercel cron or a queue) |
+| Inquiry intake | Separate self-hosted n8n instance calling a signed intake endpoint (see inquiries FRD) |
 | Hosting | Vercel (assumed) |
 
 Notes: money stored as `bigint` kobo; documents numbered from a counter row (§6.5); environment secrets via env vars only. The transaction, locking and idempotency requirements for multi-row money writes are listed in `docs/challenge-resolutions.md` (item F4) and are deliberately left until the database provider is chosen.
@@ -402,7 +453,8 @@ Notes: money stored as `bigint` kobo; documents numbered from a counter row (§6
 - PDF rendering escapes all user-typed text, runs with the network disabled, and never fetches remote URLs.
 - Logo uploads accept PNG and JPG only, with a size limit (SVG is rejected unless sanitised).
 - Bill-to email is validated, and Send shows a confirm-recipient step because the invoice carries bank details.
-- A documented admin password-reset script exists, since there is no email reset.
+- Password reset by single-use email link; an operator script is the last resort for the admin.
+- Authorisation is checked from the database on every request: role, page and assigned talent. Out-of-scope records return "not found". Invite and reset tokens are random, stored hashed, single use and expiring.
 - SPF and DKIM must be set up on the sending domain before invoices are sent.
 
 - WhatsApp: only allowlisted sender numbers; Meta signature check on every webhook; each message id processed once; no bank details typed or displayed in chat.
@@ -410,7 +462,7 @@ Notes: money stored as `bigint` kobo; documents numbered from a counter row (§6
 - Third-party platform terms apply; no scraping.
 
 ### 11.2 Data safety
-- Money records are reversal-based (§7.4), so history is the audit trail; there is no generic audit-log table in v1.
+- Money records are reversal-based (§7.4), so history is the audit trail; there is no generic audit-log table in v1. Money records also store `created_by` and the voiding user, and a Team activity list records access changes.
 - A full-data backup export (not a statement export) and database point-in-time recovery or scheduled backups are required before real use.
 
 ## 12. Edge cases
@@ -439,14 +491,17 @@ Notes: money stored as `bigint` kobo; documents numbered from a counter row (§6
 
 ## 14. Milestones
 
-1. **Foundation:** project setup, database schema, auth and security baseline, layout with talent switcher.
-2. **Talents and campaigns:** CRUD, profile pages, status rules.
+1. **Foundation:** project setup, database schema, users and sign-in, auth and security baseline, layout with talent switcher.
+2. **Talents and campaigns:** CRUD, profile pages, status rules. **Team management:** invites, roles, page checklist, talent scope, Team page.
 3. **Expenses and advances:** logging, per-line recoverable, advance ledger with repayment and write-off.
 4. **Invoices:** editor, PDF, email send, payments, derived statuses, collection actions.
 5. **Payouts:** breakdown, advance deductions, ready-to-pay.
 6. **Company overview and polish:** filters, revenue and growth, breakdowns, responsive pass.
 7. **WhatsApp assistant:** webhook, allowlist, invoice and expense flows.
 8. **Post insights:** posts, manual snapshots, YouTube pull, connected Instagram/TikTok, scheduler, overview section.
+9. **Inquiry tracking:** mailbox registration, signed intake endpoint, inquiries tab, overview section, health warnings. The n8n workflows are built and hosted separately.
+10. **Campaign tasks:** team list, tasks tab, tasks page, templates, overview card.
+11. **Campaign notes:** notes tab, editor, search, create-task action.
 
 ## 15. Open questions
 
@@ -461,6 +516,18 @@ Open for the new features:
 - **Send from WhatsApp:** v1 allows Send after a second confirmation. Confirm this is wanted, or restrict WhatsApp to drafts.
 - **Brand-facing performance report:** sharing campaign results with the brand is a natural next step, not in v1.
 - **Post links from WhatsApp:** not in v1.
+
+Open for inquiry tracking (details in `docs/features/inquiries.frd.md`):
+- **Inbox setup model:** talent's own mailbox, agency-created address, or forwarding; to be learned from how the agency operates. The app does not depend on the answer.
+- **Classifier data exposure:** whether a hosted language model may read the emails.
+- **Follow-up pipeline and brand matching:** left out of v1.
+
+Open for campaign tasks (details in `docs/features/tasks.frd.md`):
+- **Team access (details in `docs/features/team.frd.md`):** view-only levels, payout approvals, two-factor authentication and per-campaign scoping are left out of v1.
+- **Notifications and talent-level tasks:** left out of v1.
+
+Open for campaign notes (details in `docs/features/notes.frd.md`):
+- **Talent-level notes and attachments:** left out of v1; attachments depend on the file store decision.
 
 Open (deferred from the challenge review, critics disagreed; see `docs/challenge-resolutions.md`):
 - **Overview scope:** keep all 12 sections, or ship a lean home first. Revisit once the §7 definitions are implemented.
