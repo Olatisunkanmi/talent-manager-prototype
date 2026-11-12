@@ -308,6 +308,19 @@ tr[data-go]{cursor:pointer}
 .postchart{width:100%;height:160px}
 .postchart text{font-size:11px;fill:var(--ink-muted)}
 
+.notecard{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;margin-bottom:10px;cursor:pointer;background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.notecard:hover{background:var(--surface-sunken)}
+.notecard .nh{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.notecard .nx{font-size:var(--t-sm);color:var(--ink-muted)}
+.md{font-size:var(--t-sm);line-height:1.55;max-height:50vh;overflow:auto}
+.md h4{font-size:var(--t-sm);font-weight:700;margin:12px 0 4px}
+.md p{margin:0 0 8px;color:var(--ink)}
+.md ul{margin:0 0 8px}
+.md li::before{background:var(--ink-muted)}
+.fig-big{font-size:var(--t-2xl)}
+.tt{table-layout:fixed;width:100%}
+#vaMenu{right:0;left:auto;min-width:260px}
+
 .mono,.pill,td.n,td .btn{white-space:nowrap}
 .toolbar .search{flex:1;min-width:200px;max-width:320px}
 
@@ -330,6 +343,7 @@ tr[data-go]{cursor:pointer}
   <button data-nav="overview" data-go="#/overview"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>Overview</button>
   <button data-nav="talents" data-go="#/talents"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.2-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18 14.5c2 .5 3.2 2.3 3.5 5.5"/></svg>Talents</button>
   <button data-nav="campaigns" data-go="#/campaigns"><svg viewBox="0 0 24 24"><path d="M4 5h16v4H4zM4 13h10v6H4z"/></svg>Campaigns</button>
+  <button data-nav="tasks" data-go="#/tasks"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg>Tasks</button>
   <button data-nav="invoices" data-go="#/invoices"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></svg>Invoices</button>
   <button data-nav="expenses" data-go="#/expenses"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>Expenses</button>
   <div class="label" style="margin-top:8px">Money</div>
@@ -340,7 +354,7 @@ tr[data-go]{cursor:pointer}
   <button data-nav="whatsapp" data-go="#/whatsapp"><svg viewBox="0 0 24 24"><path d="M4 20l1.5-4.500A8 8 0 1112 20a8 8 0 01-3.500-.8z"/></svg>WhatsApp</button>
  </nav>
  <div class="grow"></div>
- <nav class="nav"><button data-nav="company" data-go="#/company"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Company</button>
+ <nav class="nav"><button data-nav="team" data-go="#/team"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.2-5.5 6.5-5.5s5.9 2 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18 14.5c2 .5 3.2 2.3 3.5 5.5"/></svg>Team</button><button data-nav="company" data-go="#/company"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Company</button>
  <button class="resetb" data-act="reset">Reset demo data</button></nav>
  <div class="sidehint">Prototype: data lives in your browser. Email, PDF, WhatsApp and platform APIs are simulated.</div>
 </aside>
@@ -348,8 +362,9 @@ tr[data-go]{cursor:pointer}
  <header class="top"><h1 id="title">Company overview</h1>
   <div class="search relw"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="gsearch" placeholder="Search invoices, campaigns, talents" autocomplete="off"><div class="menu" id="gsMenu"></div></div>
   <div class="sp"></div>
+  <div class="relw"><button class="btn" id="vaBtn">Viewing as</button><div class="menu" id="vaMenu"></div></div>
   <div class="relw"><button class="btn pri" id="crBtn">+ Create ▾</button><div class="menu" id="crMenu">
-   <button data-go="#/campaign/new">Campaign</button><button data-act="invPick">Invoice</button><button data-go="#/expense/new">Expense</button><button data-go="#/payout/new">Payout</button><button data-act="advPick">Advance</button><button data-act="talentModal">Talent</button></div></div>
+   <button data-go="#/campaign/new">Campaign</button><button data-act="invPick">Invoice</button><button data-go="#/expense/new">Expense</button><button data-go="#/payout/new">Payout</button><button data-act="advPick">Advance</button><button data-act="talentModal">Talent</button><div class="sep"></div><button data-act="taskNew">Task</button></div></div>
   <div class="av" style="width:36px;height:36px">AD</div>
  </header>
  <div id="content"></div>
@@ -630,9 +645,12 @@ function seed(){
     {talent:'t6',platform:'instagram',handle:'@seyicoker',status:'connected',date:'2026-06-11'}
   ];
   S.counters={inv:13,exp:7,pay:3,id:100};
+  {const d=seedTN();S.team=d.team;S.tasks=d.tasks;S.notes=d.notes;S.me='m1'}
   return S;
 }
 let S=(()=>{try{const x=localStorage.getItem(KEY);if(x)return JSON.parse(x)}catch(e){}return seed()})();
+if(!S.tasks||!S.notes||!S.team){const d=seedTN();S.team=S.team||d.team;S.tasks=S.tasks||d.tasks;S.notes=S.notes||d.notes}
+{const base=seedTN().team;S.team=S.team.map(u=>{if(u.role)return u;const b=base.find(x=>x.id===u.id);return b?{...b}:{...u,role:'member',status:u.active===false?'deactivated':'active',pages:['campaigns','tasks'],talents:[]}});base.forEach(b=>{if(!S.team.some(u=>u.id===b.id))S.team.push({...b})});if(!S.me)S.me='m1'}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const uid=p=>p+(++S.counters.id);
 const T=id=>S.talents.find(x=>x.id===id), C=id=>S.campaigns.find(x=>x.id===id), I=id=>S.invoices.find(x=>x.id===id);
@@ -666,7 +684,7 @@ function campMoney(c){
 }
 const tBal=id=>S.ledger.filter(l=>l.talent===id).reduce((a,l)=>a+l.amt,0);
 function tMoney(t){
-  const cs=S.campaigns.filter(c=>c.talent===t.id), ms=cs.map(campMoney);
+  const cs=vis().campaigns.filter(c=>c.talent===t.id), ms=cs.map(campMoney);
   const earned=ms.reduce((a,m)=>a+m.earned,0), owed=ms.reduce((a,m)=>a+m.available,0);
   const paidOut=S.payouts.filter(p=>p.talent===t.id&&p.status==='recorded').reduce((a,p)=>a+p.gross-p.ded,0);
   const bal=tBal(t.id);
@@ -692,14 +710,20 @@ const PAGES={}, ACT={};
 let SCROLL=false;
 function parseRoute(){const h=location.hash.replace(/^#\/?/,'');const [path,qs]=h.split('?');return {parts:path.split('/').filter(Boolean),q:Object.fromEntries(new URLSearchParams(qs||''))}}
 function render(keep){
-  const {parts,q}=parseRoute();const p0=parts[0]||'overview';const fn=PAGES[p0]||PAGES.overview;
-  closeMenus();
-  const y=window.scrollY;
-  const out=fn(parts.slice(1),q);
-  const old=$('#content'),fresh=old.cloneNode(false);old.replaceWith(fresh);
-  fresh.innerHTML=out.html;$('#title').textContent=out.title;
-  $$('.nav button[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav===(out.nav||p0)));
-  out.mount&&out.mount($('#content'));
+  const {parts,q}=parseRoute();const p0=parts[0]||'overview';
+  const need=ROUTE_PAGE[p0]||'overview';
+  closeMenus();applyAccess();ensureTalent();
+  if(!can(need)&&need==='overview'&&firstPage()){location.hash='#/'+firstPage();return}
+  const full=S,y=window.scrollY;
+  try{
+    S=vis();
+    const fn=can(need)?(PAGES[p0]||PAGES.overview):PAGES.noaccess;
+    const out=fn(parts.slice(1),q);
+    const old=$('#content'),fresh=old.cloneNode(false);old.replaceWith(fresh);
+    fresh.innerHTML=accessBanner(p0)+out.html;$('#title').textContent=out.title;
+    $$('.nav button[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav===(out.nav||p0)));
+    out.mount&&out.mount($('#content'));
+  }finally{S=full}
   window.scrollTo(0,keep===true?y:0);
   syncSwitch();
 }
@@ -746,7 +770,7 @@ let LAST_T='t1';
 function syncSwitch(){const t=T(LAST_T);if(!t)return;$('#swName').textContent=t.name;$('#swNiche').textContent=t.niche;$('#swAv').textContent=initials(t.name)}
 function buildSwitchMenu(showOff){
   const m=$('#swMenu');
-  m.innerHTML=S.talents.filter(t=>showOff||t.status==='active').map(t=>`<button data-go="#/talent/${t.id}">${esc(t.name)} ${t.status==='deactivated'?'<small>Deactivated</small>':''}</button>`).join('')+`<div class="sep"></div><button data-act="swOff" data-v="${showOff?0:1}">${showOff?'Hide':'Show'} deactivated</button><button data-go="#/talents">All talents</button>`;
+  m.innerHTML=vis().talents.filter(t=>showOff||t.status==='active').map(t=>`<button data-go="#/talent/${t.id}">${esc(t.name)} ${t.status==='deactivated'?'<small>Deactivated</small>':''}</button>`).join('')+`<div class="sep"></div><button data-act="swOff" data-v="${showOff?0:1}">${showOff?'Hide':'Show'} deactivated</button><button data-go="#/talents">All talents</button>`;
 }
 ACT.swOff=(d)=>{buildSwitchMenu(d.v==='1');$('#swMenu').classList.add('on')};
 $('#swBtn').onclick=e=>{e.stopPropagation();buildSwitchMenu(false);$('#swMenu').classList.toggle('on')};
@@ -755,9 +779,11 @@ const sIn=$('#gsearch'),sMenu=$('#gsMenu');
 sIn.addEventListener('input',()=>{
   const q=sIn.value.toLowerCase().trim();if(!q){sMenu.classList.remove('on');return}
   const r=[];
-  S.talents.filter(t=>t.name.toLowerCase().includes(q)).forEach(t=>r.push([`#/talent/${t.id}`,t.name,'Talent']));
-  S.campaigns.filter(c=>(c.title+c.brand).toLowerCase().includes(q)).forEach(c=>r.push([`#/campaign/${c.id}`,c.title,'Campaign']));
-  S.invoices.filter(i=>(i.no+i.billName).toLowerCase().includes(q)).forEach(i=>r.push([`#/invoice/${i.id}`,i.no+' · '+i.billName,'Invoice']));
+  vis().talents.filter(t=>t.name.toLowerCase().includes(q)).forEach(t=>r.push([`#/talent/${t.id}`,t.name,'Talent']));
+  vis().campaigns.filter(c=>(c.title+c.brand).toLowerCase().includes(q)).forEach(c=>r.push([`#/campaign/${c.id}`,c.title,'Campaign']));
+  vis().invoices.filter(i=>(i.no+i.billName).toLowerCase().includes(q)).forEach(i=>r.push([`#/invoice/${i.id}`,i.no+' · '+i.billName,'Invoice']));
+  vis().notes.filter(n=>(n.title+' '+n.body).toLowerCase().includes(q)).forEach(n=>r.push([`#/campaign/${n.camp}/notes`,n.title,'Note']));
+  vis().tasks.filter(t=>t.title.toLowerCase().includes(q)).forEach(t=>r.push([`#/campaign/${t.camp}/tasks`,t.title,'Task']));
   sMenu.innerHTML=r.slice(0,8).map(x=>`<button data-go="${x[0]}">${esc(x[1])}<small>${x[2]}</small></button>`).join('')||'<div class="empty">No matches</div>';
   sMenu.classList.add('on');
 });
@@ -768,6 +794,7 @@ ACT.toast=d=>toast(d.m);
 
 /* ---------- strips + money panels ---------- */
 function moneyPanel(c){
+  if(!(can('invoices')||can('payouts')))return '<div class="empty">Money figures are available to people with Invoices or Payouts access.</div>';
   const m=campMoney(c);
   return `<div class="settle">
     <div>
@@ -828,7 +855,7 @@ PAGES.overview=()=>({title:'Company overview',nav:'overview',html:$('#tpl-dash')
 let TF={q:'',st:'all'};
 ACT.tfSt=d=>{TF.st=d.v;render(true)};
 PAGES.talents=()=>{
-  const list=S.talents.filter(t=>(TF.st==='all'||t.status===TF.st)&&(!TF.q||t.name.toLowerCase().includes(TF.q.toLowerCase())));
+  const list=vis().talents.filter(t=>(TF.st==='all'||t.status===TF.st)&&(!TF.q||t.name.toLowerCase().includes(TF.q.toLowerCase())));
   return {title:'Talents',nav:'talents',html:`<div class="card"><div class="toolbar">${chips([['all','All'],['active','Active'],['deactivated','Deactivated']],TF.st,'tfSt')}<div class="search"><input id="tq" placeholder="Search talents" value="${esc(TF.q)}"></div><div class="sp" style="flex:1"></div><button class="btn pri" data-act="talentModal">New talent</button></div>
   <table><thead><tr><th>Talent</th><th>Niche</th><th>Status</th><th class="n">Earned</th><th class="n">Owed to talent</th><th class="n">Advance balance</th><th class="n">Active campaigns</th></tr></thead><tbody>
   ${list.map(t=>{const m=tMoney(t);return `<tr data-go="#/talent/${t.id}"><td><b>${esc(t.name)}</b></td><td>${esc(t.niche)}</td><td>${t.status==='active'?pill('act','Active'):pill('off','Deactivated')}</td><td class="n">${N(m.earned)}</td><td class="n">${N(m.owed)}</td><td class="n" style="color:${m.bal?'var(--owed)':'inherit'}">${N(m.bal)}</td><td class="n">${m.active}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">No talents match.</td></tr>'}
@@ -844,8 +871,8 @@ ACT.talentModal=(d)=>{
     save();closeModal();toast(t?'Talent updated':'Talent created');go(t?'#/talent/'+t.id:'#/talent/'+LAST_T)}});
 };
 PAGES.talent=([id,tab],q)=>{
-  const t=T(id);if(!t)return PAGES.talents();LAST_T=t.id;tab=tab||'campaigns';
-  const m=tMoney(t),cs=S.campaigns.filter(c=>c.talent===t.id).sort((a,b)=>(b.status==='active')-(a.status==='active')||b.start.localeCompare(a.start));
+  const t=T(id);if(!t)return PAGES.talents();LAST_T=t.id;tab=tab||'campaigns';if(!can(TALENT_TAB_PAGE[tab]||'talents')){const f=Object.keys(TALENT_TAB_PAGE).find(k=>can(TALENT_TAB_PAGE[k]));if(f)tab=f}
+  const m=tMoney(t),cs=vis().campaigns.filter(c=>c.talent===t.id).sort((a,b)=>(b.status==='active')-(a.status==='active')||b.start.localeCompare(a.start));
   const act=t.status==='active', ended=act&&t.ce&&t.ce<TODAY;
   let body='';
   if(tab==='campaigns')body=`<div class="head" style="margin-bottom:var(--s-3)"><span class="label">Ongoing campaigns first, then recent history</span><button class="btn pri" ${act?'':'disabled'} data-act="${act?'newCampFor':'toast'}" data-id="${t.id}" data-m="Deactivated talents cannot get new campaigns">New campaign</button></div>
@@ -866,7 +893,7 @@ PAGES.talent=([id,tab],q)=>{
   <div class="card kpi"><div class="row">Owed to talent</div><div class="big"><small>₦</small>${short(m.owed)}</div><div class="sub">available across campaigns</div></div>
   <div class="card kpi"><div class="row">Advance balance</div><div class="big" style="color:var(--owed)"><small style="color:var(--owed)">₦</small>${short(m.bal)}</div><div class="sub">${m.bal?(m.net<0?'owes '+N(-m.net)+' net':'owed '+N(m.net)+' net'):'none outstanding'}</div></div>
   <div class="card kpi"><div class="row">Active campaigns</div><div class="big">${m.active}</div><div class="sub">${cs.filter(c=>c.status==='completed').length} completed</div></div></div>
-  <div class="card"><div class="tabs">${[['campaigns','Active and recent campaigns'],['advances','Advances'],['expenses','Expenses'],['payouts','Payouts'],['posts','Posts']].map(([k,l])=>`<button class="${k===tab?'on':''}" data-go="#/talent/${t.id}/${k}">${l}</button>`).join('')}</div>${body}</div>
+  <div class="card"><div class="tabs">${[['campaigns','Active and recent campaigns'],['advances','Advances'],['expenses','Expenses'],['payouts','Payouts'],['posts','Posts']].filter(([k])=>can(TALENT_TAB_PAGE[k])).map(([k,l])=>`<button class="${k===tab?'on':''}" data-go="#/talent/${t.id}/${k}">${l}</button>`).join('')}</div>${body}</div>
   <div class="card"><div class="head"><h2>Connected accounts</h2><span class="label">For post insights</span></div>
   <table><tbody>${['instagram','tiktok','youtube'].map(pl=>{const a=accts.find(x=>x.platform===pl);return `<tr><td style="width:140px"><b>${platIco[pl]}</b></td><td>${a?esc(a.handle)+' · connected '+fd(a.date):pl==='youtube'?'Not needed: public data via API key':'Not connected'}</td><td>${a?pill(a.status==='connected'?'act':'over',a.status):pl==='youtube'?pill('act','public'):pill('off','not connected')}</td><td class="n">${pl==='youtube'?'':a&&a.status==='connected'?`<button class="btn sm" data-act="acctDisc" data-id="${t.id}" data-p="${pl}">Disconnect</button>`:`<button class="btn sm" data-act="acctConn" data-id="${t.id}" data-p="${pl}">${a?'Reconnect':'Copy connect link'}</button>`}</td></tr>`}).join('')}</tbody></table></div>`};
 };
@@ -876,7 +903,7 @@ ACT.acctConn=d=>{const t=T(d.id);modal(`<h2>Connect ${d.p==='instagram'?'Instagr
   save();closeModal();toast('Account connected; posts can now be pulled automatically');render(true)}})};
 ACT.acctDisc=d=>confirmBox('Disconnect account?','<p>Posts on this account fall back to manual entry.</p>','Disconnect',()=>{const a=S.accounts.find(a=>a.talent===d.id&&a.platform===d.p);a.status='revoked';S.posts.forEach(p=>{if(C(p.camp).talent===d.id&&p.platform===d.p&&p.mode==='api-connected')p.mode='manual'});save();toast('Disconnected');render(true)},true);
 ACT.deactModal=d=>{
-  const t=T(d.id),m=tMoney(t),cs=S.campaigns.filter(c=>c.talent===t.id&&c.status==='active').length;
+  const t=T(d.id),m=tMoney(t),cs=vis().campaigns.filter(c=>c.talent===t.id&&c.status==='active').length;
   const unpaid=S.invoices.filter(i=>C(i.camp).talent===t.id&&['sent'].includes(i.status)&&invBal(i)>0).length;
   modal(`<h2>Deactivate ${esc(t.name)}?</h2><p>Use this when the talent's contract ends. History is kept and you can reactivate later.</p><ul><li>${cs} active campaign(s) keep running and can still be invoiced and paid out.</li><li>${unpaid} unpaid invoice(s).</li><li>${N(m.owed)} is available to pay and ${N(m.bal)} advance is outstanding: net position <b>${m.net<0?'owes '+N(-m.net):'owed '+N(m.net)}</b>.</li><li class="ok">No new campaigns or advances can be created for this talent.</li><li class="ok">Payouts, cash repayments and write-offs still work.</li><li class="ok">Hidden from the switcher; always listed in payout pickers.</li></ul><div class="two">${fld('Contract end date','de',t.ce||TODAY,{type:'date'})}${fld('Reason (optional)','dr','Contract ended')}</div><div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn danger" id="ok">Deactivate talent</button></div>`,{mount:mm=>$('#ok',mm).onclick=()=>{t.status='deactivated';t.ce=val('de')||TODAY;t.reason=val('dr');save();closeModal();toast(t.name+' deactivated');render(true)}});
 };
@@ -893,22 +920,22 @@ ACT.advModal=d=>{
 
 /* ================= ADVANCES ================= */
 PAGES.advances=()=>({title:'Advances',nav:'advances',html:`<div class="card"><div class="head"><h2>Advance balances</h2><button class="btn pri" data-act="advPick">New advance</button></div><table><thead><tr><th>Talent</th><th>Status</th><th class="n">Advance balance</th><th class="n">Owed to talent</th><th class="n">Net position</th></tr></thead><tbody>${S.talents.map(t=>({t,m:tMoney(t)})).filter(x=>x.m.bal||x.m.owed).map(({t,m})=>`<tr data-go="#/talent/${t.id}/advances"><td><b>${esc(t.name)}</b></td><td>${t.status==='active'?pill('act','Active'):pill('off','Deactivated')}</td><td class="n" style="color:var(--owed)"><b>${N(m.bal)}</b></td><td class="n">${N(m.owed)}</td><td class="n">${m.net<0?`<span class="dn">owes ${N(-m.net)}</span>`:`<span class="up">owed ${N(m.net)}</span>`}</td></tr>`).join('')}</tbody></table></div>`});
-ACT.advPick=()=>modal(`<h2>New advance</h2>${sel('Talent','ap',S.talents.filter(t=>t.status==='active').map(t=>[t.id,t.name]),LAST_T)}<div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="ok">Continue</button></div>`,{mount:m=>$('#ok',m).onclick=()=>{const id=val('ap');closeModal();ACT.advModal({id,t:'advance'})}});
+ACT.advPick=()=>modal(`<h2>New advance</h2>${sel('Talent','ap',vis().talents.filter(t=>t.status==='active').map(t=>[t.id,t.name]),LAST_T)}<div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="ok">Continue</button></div>`,{mount:m=>$('#ok',m).onclick=()=>{const id=val('ap');closeModal();ACT.advModal({id,t:'advance'})}});
 
 /* ================= CAMPAIGNS ================= */
 let CF={q:'',st:'all'};
 ACT.cfSt=d=>{CF.st=d.v;render(true)};
 PAGES.campaigns=()=>{
-  const list=S.campaigns.filter(c=>(CF.st==='all'||c.status===CF.st)&&(!CF.q||(c.title+c.brand+T(c.talent).name).toLowerCase().includes(CF.q.toLowerCase())));
+  const list=vis().campaigns.filter(c=>(CF.st==='all'||c.status===CF.st)&&(!CF.q||(c.title+c.brand+T(c.talent).name).toLowerCase().includes(CF.q.toLowerCase())));
   return {title:'Campaigns',nav:'campaigns',html:`<div class="card"><div class="toolbar">${chips([['all','All'],['active','Active'],['draft','Draft'],['completed','Completed'],['cancelled','Cancelled']],CF.st,'cfSt')}<div class="search"><input id="cq" placeholder="Search campaigns, brands, talents" value="${esc(CF.q)}"></div><div style="flex:1"></div><button class="btn pri" data-go="#/campaign/new">New campaign</button></div>
-  <table><thead><tr><th>Campaign</th><th>Talent</th><th>Status</th><th class="n">Agreed</th><th class="n">Invoiced</th><th class="n">Received</th><th>Settlement</th></tr></thead><tbody>${list.map(c=>{const m=campMoney(c),t=T(c.talent);return `<tr data-go="#/campaign/${c.id}"><td><b>${esc(c.title)}</b><br><span class="sm">${esc(c.brand)}</span></td><td>${esc(t.name)}${t.status==='deactivated'?' '+pill('off','Deactivated'):''}</td><td>${campPill(c)}</td><td class="n">${N(c.agreed)}</td><td class="n">${N(m.invoiced)}</td><td class="n"><b>${N(m.income)}</b></td><td class="minisrip">${stripHtml(m)}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">No campaigns match.</td></tr>'}</tbody></table></div>`,
+  <table><thead><tr><th>Campaign</th><th>Talent</th><th>Status</th><th class="n">Agreed</th><th class="n">Invoiced</th><th class="n">Received</th><th>Settlement</th></tr></thead><tbody>${list.map(c=>{const m=campMoney(c),t=T(c.talent);return `<tr data-go="#/campaign/${c.id}"><td><b>${esc(c.title)}</b><br><span class="sm">${esc(c.brand)}</span></td><td>${esc(t.name)}${t.status==='deactivated'?' '+pill('off','Deactivated'):''}</td><td>${campPill(c)}</td><td class="n">${N(c.agreed)}</td>${(can('invoices')||can('payouts'))?`<td class="n">${N(m.invoiced)}</td><td class="n"><b>${N(m.income)}</b></td><td class="minisrip">${stripHtml(m)}</td>`:'<td class="n">—</td><td class="n">—</td><td></td>'}</tr>`}).join('')||'<tr><td colspan="7" class="empty">No campaigns match.</td></tr>'}</tbody></table></div>`,
   mount:r=>{$('#cq',r).oninput=e=>{CF.q=e.target.value;const p=e.target.selectionStart;render(true);const n=$('#cq');n.focus();n.setSelectionRange(p,p)}}};
 };
 function campForm(c,q){
-  const tals=S.talents.filter(t=>t.status==='active'||(c&&t.id===c.talent));
+  const tals=vis().talents.filter(t=>t.status==='active'||(c&&t.id===c.talent));
   const tid=c?c.talent:(q.talent||tals[0].id);
   return `<div class="editor" style="grid-template-columns:minmax(0,640px) minmax(0,1fr)"><div class="form"><h2>${c?'Edit campaign':'Create new campaign'}</h2>
-  <section><div class="label">Deal</div>${sel('Talent (cannot change later)','cf_t',tals.map(t=>[t.id,t.name]),tid,{dis:!!c})}${fld('Campaign title','cf_ti',c?c.title:'')}${fld('Brand','cf_b',c?c.brand:'',{list:'brands'})}<datalist id="brands">${[...new Set(S.campaigns.map(x=>x.brand))].map(b=>`<option>${esc(b)}</option>`).join('')}</datalist><div class="field ta"><label>Description</label><textarea id="cf_d" rows="2">${esc(c?c.desc:'')}</textarea></div></section>
+  <section><div class="label">Deal</div>${sel('Talent (cannot change later)','cf_t',tals.map(t=>[t.id,t.name]),tid,{dis:!!c})}${fld('Campaign title','cf_ti',c?c.title:'')}${fld('Brand','cf_b',c?c.brand:'',{list:'brands'})}<datalist id="brands">${[...new Set(vis().campaigns.map(x=>x.brand))].map(b=>`<option>${esc(b)}</option>`).join('')}</datalist><div class="field ta"><label>Description</label><textarea id="cf_d" rows="2">${esc(c?c.desc:'')}</textarea></div></section>
   <section><div class="label">Money</div><div class="two">${fld('Agreed amount (₦)','cf_a',c?c.agreed:'')}${fld(c&&campMoney(c).hasPay?'Commission (%) · locked after first payment':'Commission (%)','cf_c',c?c.bps/100:T(tid).bps/100,{ro:c&&campMoney(c).hasPay})}</div><div class="hint">Commission defaults from the talent and can be overridden until the first payment is recorded.</div></section>
   <section><div class="label">Dates</div><div class="two">${fld('Start','cf_s',c?c.start:TODAY,{type:'date'})}${fld('End','cf_e',c?c.end:addDays(TODAY,45),{type:'date'})}</div></section>
   <div class="acts"><button class="btn" data-go="${c?'#/campaign/'+c.id:'#/campaigns'}">Cancel</button><button class="btn pri" id="cf_save">${c?'Save changes':'Create campaign'}</button></div></div>
@@ -923,23 +950,26 @@ PAGES.campaign=([id,tab],q)=>{
       const a=parseAmt(val('cf_a'));if(!(a>0))return bad('cf_a','Enter the agreed amount');const pc=parseFloat(val('cf_c'));if(!(pc>=0&&pc<=100))return bad('cf_c','Commission must be 0 to 100');
       const c={id:uid('c'),talent:t.id,title:val('cf_ti'),brand:val('cf_b'),agreed:a,bps:Math.round(pc*100),status:'draft',start:val('cf_s'),end:val('cf_e'),desc:val('cf_d')};
       S.campaigns.push(c);save();toast('Campaign created as draft');location.hash='#/campaign/'+c.id}}}}
-  const c=C(id);if(!c)return PAGES.campaigns();tab=tab||'overview';const t=T(c.talent),m=campMoney(c);LAST_T=t.id;
+  const c=C(id);if(!c)return PAGES.campaigns();tab=tab||'overview';if(!can(CAMP_TAB_PAGE[tab]||'campaigns'))tab='overview';const t=T(c.talent),m=campMoney(c);LAST_T=t.id;
   if(tab==='edit')return {title:'Edit campaign',nav:'campaigns',html:crumb('Campaigns',esc(c.title),'Edit')+campForm(c,{}),mount:r=>{$('#cf_save',r).onclick=()=>{
       if(!val('cf_ti'))return bad('cf_ti','Title is required');const a=parseAmt(val('cf_a'));if(!(a>0))return bad('cf_a','Enter the agreed amount');
       c.title=val('cf_ti');c.brand=val('cf_b');c.desc=val('cf_d');c.agreed=a;c.start=val('cf_s');c.end=val('cf_e');if(!m.hasPay)c.bps=Math.round(parseFloat(val('cf_c'))*100);save();toast('Campaign saved');go('#/campaign/'+c.id)}}};
   const TR={draft:['active','cancelled'],active:['completed','cancelled'],completed:['active'],cancelled:['active']}[c.status];
   const exs=S.expenses.filter(e=>e.camp===c.id), invs=campInvs(c), pys=S.payouts.filter(p=>p.camp===c.id), ps=S.posts.filter(p=>p.camp===c.id);
   let body='';
-  if(tab==='overview'){const pt=postTotals(ps);body=moneyPanel(c)+`<div class="g22" style="margin-top:20px"><div><div class="label">Details</div><dl class="kv" style="margin-top:10px"><dt>Brand</dt><dd>${esc(c.brand)}</dd><dt>Agreed amount</dt><dd>${N(c.agreed)} ${m.invoiced>c.agreed?'<span class="dn">(invoiced exceeds agreed)</span>':''}</dd><dt>Commission</dt><dd>${c.bps/100}% ${m.hasPay?'(locked)':''}</dd><dt>Dates</dt><dd>${fd(c.start)} to ${fd(c.end)}</dd><dt>Description</dt><dd>${esc(c.desc||'—')}</dd></dl></div><div><div class="label">Posts</div><dl class="kv" style="margin-top:10px"><dt>Tracked</dt><dd>${pt.n}</dd><dt>Total views</dt><dd>${short(pt.views)}</dd><dt>Engagement rate</dt><dd>${(pt.rate*100).toFixed(1)}%</dd><dt>Cost per 1,000 views</dt><dd>${pt.views?N(m.invoiced/pt.views*1000):'—'} <span class="sm">(on invoiced)</span></dd></dl></div></div>`}
+  if(tab==='overview'){const pt=postTotals(ps);body=moneyPanel(c)+`<div class="g22" style="margin-top:20px"><div><div class="label">Details</div><dl class="kv" style="margin-top:10px"><dt>Brand</dt><dd>${esc(c.brand)}</dd><dt>Agreed amount</dt><dd>${N(c.agreed)} ${m.invoiced>c.agreed?'<span class="dn">(invoiced exceeds agreed)</span>':''}</dd><dt>Commission</dt><dd>${c.bps/100}% ${m.hasPay?'(locked)':''}</dd><dt>Dates</dt><dd>${fd(c.start)} to ${fd(c.end)}</dd><dt>Description</dt><dd>${esc(c.desc||'—')}</dd></dl></div><div>${can('insights')?`<div class="label">Posts</div><dl class="kv" style="margin-top:10px"><dt>Tracked</dt><dd>${pt.n}</dd><dt>Total views</dt><dd>${short(pt.views)}</dd><dt>Engagement rate</dt><dd>${(pt.rate*100).toFixed(1)}%</dd><dt>Cost per 1,000 views</dt><dd>${pt.views?N(m.invoiced/pt.views*1000):'—'} <span class="sm">(on invoiced)</span></dd></dl>`:''}</div></div>`}
   if(tab==='expenses'){const open=!['completed','cancelled'].includes(c.status);body=`${open?`<div class="qa"><div class="field"><select id="qc">${catList.map(x=>`<option>${x}</option>`).join('')}</select></div><div class="field"><input id="qd" placeholder="Quick add: description"></div><div class="field"><input id="qa" placeholder="Amount e.g. 15k"></div><label class="check"><input type="checkbox" id="qr">Recoverable</label><button class="btn pri" data-act="quickExp" data-id="${c.id}">Add</button></div>`:'<div class="note">Reopen the campaign to add expenses.</div>'}
     <div class="head" style="margin-bottom:var(--s-3)"><span class="label">Recoverable ${N(m.rec)} · Absorbed ${N(m.abs)}</span><button class="btn pri" ${open?'':'disabled'} data-go="#/expense/new?campaign=${c.id}">New expense</button></div>${expTable(exs)}`}
   if(tab==='invoices')body=`<div class="head" style="margin-bottom:var(--s-3)"><span class="label">Invoiced ${N(m.invoiced)} · Received ${N(m.income)}</span><button class="btn pri" ${['completed','cancelled'].includes(c.status)?'disabled':''} data-go="#/invoice/new?campaign=${c.id}">New invoice</button></div>${invTable(invs)}`;
   if(tab==='payouts')body=`<div class="head" style="margin-bottom:var(--s-3)"><span class="label">Available ${N(m.available)}</span><button class="btn pri" ${m.available>0&&c.status!=='draft'?'':'disabled'} data-go="#/payout/new?campaign=${c.id}">New payout</button></div>${payTable(pys)}`;
   if(tab==='posts')body=postsTab(c,ps);
+  if(tab==='tasks')body=tasksTab(c);
+  if(tab==='notes')body=notesTab(c);
+  if(tab==='overview')body+=ovTN(c);
   return {title:'Campaign',nav:'campaigns',html:`${crumb(L('#/campaigns','Campaigns'),L('#/talent/'+t.id,t.name),esc(c.title))}
   <div class="card"><div class="ph2"><div><h2>${esc(c.title)} ${campPill(c)}</h2><div class="sm" style="margin-top:6px">${esc(c.brand)} · ${esc(t.name)}${t.status==='deactivated'?' (deactivated)':''} · ${fd(c.start)} to ${fd(c.end)}</div></div>
   <div class="acts"><button class="btn" data-go="#/campaign/${c.id}/edit">Edit</button><div class="relw"><button class="btn" data-act="menuToggle" data-m="stMenu">Status: ${c.status} ▾</button><div class="menu" id="stMenu" style="right:0">${TR.map(s=>`<button data-act="setStatus" data-id="${c.id}" data-s="${s}">Move to ${s}</button>`).join('')}</div></div></div></div></div>
-  <div class="card">${tabs([['overview','Overview'],['expenses','Expenses'],['invoices','Invoices'],['payouts','Payouts'],['posts','Posts']],tab,'#/campaign/'+c.id)}${body}</div>`};
+  <div class="card">${tabs([['overview','Overview'],['expenses','Expenses'],['invoices','Invoices'],['payouts','Payouts'],['posts','Posts'],['tasks','Tasks ('+S.tasks.filter(t=>t.camp===c.id&&t.status!=='done').length+')'],['notes','Notes ('+S.notes.filter(n=>n.camp===c.id).length+')']].filter(x=>can(CAMP_TAB_PAGE[x[0]])),tab,'#/campaign/'+c.id)}${body}</div>`};
 };
 ACT.menuToggle=(d,el)=>{const m=document.getElementById(d.m);const on=m.classList.contains('on');closeMenus();if(!on)m.classList.add('on')};
 ACT.setStatus=d=>{const c=C(d.id);const go2=()=>{c.status=d.s;save();toast('Campaign is now '+d.s);render(true)};
@@ -963,7 +993,7 @@ PAGES.invoices=()=>{
   <div class="card"><div class="toolbar">${chips([['all','All'],['draft','Draft'],['sent','Sent'],['part','Part-paid'],['overdue','Overdue'],['paid','Paid'],['void','Void']],IF.st,'ifSt')}<div class="search"><input id="iq" placeholder="Search invoice, brand, campaign" value="${esc(IF.q)}"></div><div style="flex:1"></div><button class="btn pri" data-act="invPick">New invoice</button></div>${invTable(list,true)}</div>`,
   mount:r=>{$('#iq',r).oninput=e=>{IF.q=e.target.value;const p=e.target.selectionStart;render(true);const n=$('#iq');n.focus();n.setSelectionRange(p,p)}}};
 };
-ACT.invPick=()=>{const cs=S.campaigns.filter(c=>['draft','active'].includes(c.status));modal(`<h2>New invoice</h2><p>Every invoice belongs to a campaign. Choose one.</p>${sel('Campaign','ipc',cs.map(c=>[c.id,c.title+' · '+T(c.talent).name]),cs[0].id)}<div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="ok">Continue</button></div>`,{mount:m=>$('#ok',m).onclick=()=>{const id=val('ipc');closeModal();go('#/invoice/new?campaign='+id)}})};
+ACT.invPick=()=>{const cs=vis().campaigns.filter(c=>['draft','active'].includes(c.status));modal(`<h2>New invoice</h2><p>Every invoice belongs to a campaign. Choose one.</p>${sel('Campaign','ipc',cs.map(c=>[c.id,c.title+' · '+T(c.talent).name]),cs[0].id)}<div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="ok">Continue</button></div>`,{mount:m=>$('#ok',m).onclick=()=>{const id=val('ipc');closeModal();go('#/invoice/new?campaign='+id)}})};
 PAGES.invoice=([id,mode],q)=>{
   if(id==='new'||mode==='edit')return invEditor(id==='new'?null:I(id),q);
   const i=I(id);if(!i)return PAGES.invoices();const c=C(i.camp),t=T(c.talent),st=invState(i),pays=S.payments.filter(p=>p.inv===i.id),paid=invPaid(i);LAST_T=t.id;
@@ -984,7 +1014,7 @@ PAGES.invoice=([id,mode],q)=>{
 };
 function invEditor(inv,q){
   if(inv&&(inv.status==='sending'||inv.status==='void'))return {title:'Invoice',nav:'invoices',html:`<div class="card empty">This invoice cannot be edited (${inv.status}).</div>`};
-  const campsOk=S.campaigns.filter(c=>['draft','active'].includes(c.status)||(inv&&c.id===inv.camp));
+  const campsOk=vis().campaigns.filter(c=>['draft','active'].includes(c.status)||(inv&&c.id===inv.camp));
   const lockLines=inv&&inv.status==='sent'&&S.payments.some(p=>p.inv===inv.id);
   const ed=inv?JSON.parse(JSON.stringify(inv)):{camp:q.campaign||campsOk[0].id,billName:'',billEmail:'',billAddr:'',issue:TODAY,due:addDays(TODAY,S.company.dueDays),lines:[{d:'',q:1,p:0}],notes:'',status:'draft',log:[]};
   const prefill=()=>{const b=C(ed.camp).brand;const last=[...S.invoices].reverse().find(i=>C(i.camp).brand===b);if(last&&!inv){ed.billName=last.billName;ed.billEmail=last.billEmail;ed.billAddr=last.billAddr}};
@@ -1077,9 +1107,9 @@ ACT.voidExp=d=>{const e=S.expenses.find(x=>x.id===d.id);confirmBox('Void '+e.no+
   save();toast(e.no+' voided');render(true)},true)};
 function expEditor(e,q){
   const ed=e?JSON.parse(JSON.stringify(e)):{camp:q.campaign||'',talent:q.talent||(q.campaign?C(q.campaign).talent:LAST_T),title:'',payee:'',date:TODAY,lines:[{cat:'driver',d:'',q:1,u:0,rec:false}]};
-  const camps=S.campaigns.filter(c=>['draft','active'].includes(c.status));
+  const camps=vis().campaigns.filter(c=>['draft','active'].includes(c.status));
   return {title:e?'Edit expense':'New expense',nav:'expenses',html:`${crumb(L('#/expenses','Expenses'),e?e.no:'New')}<div class="editor"><div class="form"><h2>${e?'Edit '+e.no:'Create new expense'}</h2>
-  <section><div class="label">Context</div>${sel('Campaign (or talent-level)','ex_c',[['','Talent-level (no campaign)'],...camps.map(c=>[c.id,c.title+' · '+T(c.talent).name])],ed.camp)}${sel('Talent (follows the campaign)','ex_t',S.talents.filter(t=>t.status==='active'||t.id===ed.talent).map(t=>[t.id,t.name]),ed.talent)}</section>
+  <section><div class="label">Context</div>${sel('Campaign (or talent-level)','ex_c',[['','Talent-level (no campaign)'],...camps.map(c=>[c.id,c.title+' · '+T(c.talent).name])],ed.camp)}${sel('Talent (follows the campaign)','ex_t',vis().talents.filter(t=>t.status==='active'||t.id===ed.talent).map(t=>[t.id,t.name]),ed.talent)}</section>
   <section><div class="label">Details</div>${fld('Title','ex_ti',ed.title)}<div class="two">${fld('Payee (optional)','ex_p',ed.payee)}${fld('Date','ex_d',ed.date,{type:'date'})}</div></section>
   <section><div class="label">Line items</div><div id="xl"></div><button class="linkbtn" data-act="addXl">+ Add line</button><div class="hint" id="xh"></div></section></div><div id="pv"></div></div>
   <div class="foot"><button class="btn" data-go="${e?'#/expense/'+e.id:'#/expenses'}">Cancel</button><button class="btn pri" data-act="saveExp">Save expense</button></div>`,mount:r=>{
@@ -1111,7 +1141,7 @@ ACT.saveExp=()=>{
 /* ================= PAYOUTS ================= */
 function payTable(list){return `<table><thead><tr><th>Payout</th><th>Talent</th><th>Campaign</th><th>Date</th><th class="n">Gross</th><th class="n">Deduction</th><th class="n">Net paid</th><th>Status</th></tr></thead><tbody>${list.map(p=>`<tr data-go="#/payout/${p.id}"><td class="mono"><b>${p.no}</b></td><td>${esc(T(p.talent).name)}</td><td>${esc(C(p.camp).title)}</td><td>${fds(p.date)}</td><td class="n">${N(p.gross)}</td><td class="n">${p.ded?N(p.ded):'—'}</td><td class="n"><b>${N(p.gross-p.ded)}</b></td><td>${p.status==='void'?pill('void','Void'):pill('act','Recorded')}</td></tr>`).join('')||'<tr><td colspan="8" class="empty">No payouts.</td></tr>'}</tbody></table>`}
 PAGES.payouts=()=>{
-  const ready=S.campaigns.map(c=>({c,m:campMoney(c),t:T(c.talent)})).filter(x=>x.m.available>0&&x.c.status!=='draft');
+  const ready=vis().campaigns.map(c=>({c,m:campMoney(c),t:T(c.talent)})).filter(x=>x.m.available>0&&x.c.status!=='draft');
   return {title:'Payouts',nav:'payouts',html:`<div class="card"><div class="head"><h2>Ready to pay</h2><span class="label">Campaigns with money available</span></div><table><tbody>${ready.map(({c,m,t})=>{const bal=tBal(t.id),net=m.available-bal;return `<tr><td><b>${esc(t.name)}</b> ${t.status==='deactivated'?pill('off','Deactivated'):''}</td><td>${esc(c.title)}</td><td class="n"><b>${N(m.available)}</b> available</td><td>${bal?`Advance ${N(bal)}`:'No advance'}</td><td>${t.status==='deactivated'&&bal?(tMoney(t).net<0?pill('over','owes '+N(-tMoney(t).net)):pill('act','owed '+N(tMoney(t).net))):''}</td><td class="n"><button class="btn pri" data-go="#/payout/new?campaign=${c.id}">Pay</button></td></tr>`}).join('')||'<tr><td class="empty">Nothing is waiting to be paid.</td></tr>'}</tbody></table></div>
   <div class="card"><div class="head"><h2>All payouts</h2><button class="btn pri" data-go="#/payout/new">New payout</button></div>${payTable([...S.payouts].reverse())}</div>`};
 };
@@ -1128,7 +1158,7 @@ PAGES.payout=([id],q)=>{
 };
 ACT.voidPay=d=>{const p=S.payouts.find(x=>x.id===d.id);confirmBox('Void '+p.no+'?',`<p>A reversal is recorded. ${p.ded?`The ${N(p.ded)} advance deduction is restored to ${esc(T(p.talent).name)}'s balance.`:''}</p>`,'Void payout',()=>{p.status='void';const l=S.ledger.find(x=>x.payout===p.id);if(l)S.ledger.push({id:uid('l'),talent:p.talent,type:'reversal',amt:-l.amt,date:TODAY,reason:'Void '+p.no,rev:l.id});save();toast(p.no+' voided');render(true)},true)};
 function payEditor(q){
-  const campsAll=S.campaigns.filter(c=>c.status!=='draft');
+  const campsAll=vis().campaigns.filter(c=>c.status!=='draft');
   const c0=q.campaign?C(q.campaign):(q.talent?campsAll.find(c=>c.talent===q.talent):campsAll.find(c=>campMoney(c).available>0))||campsAll[0];
   const fromCamp=!!q.campaign;
   return {title:'New payout',nav:'payouts',html:`${crumb(L('#/payouts','Payouts'),'New payout')}<div class="editor"><div class="form"><h2>Create payout</h2>
@@ -1207,7 +1237,7 @@ PAGES.insights=()=>{
   return {title:'Insights',nav:'insights',html:`<div class="stat3"><div class="card kpi"><div class="row">Total views</div><div class="big">${short(t.views)}</div><div class="sub">mixed definitions</div></div><div class="card kpi"><div class="row">Engagements</div><div class="big">${short(t.eng)}</div></div><div class="card kpi"><div class="row">Engagement rate</div><div class="big">${(t.rate*100).toFixed(1)}%</div></div><div class="card kpi"><div class="row">Posts tracked</div><div class="big">${t.n}</div><div class="sub">${list.filter(p=>p.mode==='manual').length} manual</div></div></div>
   <div class="card"><div class="head" style="margin-bottom:8px"><h2>Views over time</h2></div>${chartSvg(viewsSeries(list))}</div>
   <div class="card"><div class="toolbar">${chips([['all','All platforms'],['instagram','Instagram'],['tiktok','TikTok'],['youtube','YouTube']],PF,'pfSt')}<div style="flex:1"></div><span class="label">Add links from a campaign's Posts tab</span></div>${postTable(list,true).replace(/<tr>/g,'<tr>')}</div>
-  <div class="card"><div class="head"><h2>Campaigns by views</h2></div><table class="compact"><tbody>${S.campaigns.map(c=>({c,t:postTotals(S.posts.filter(p=>p.camp===c.id)),m:campMoney(c)})).filter(x=>x.t.n).sort((a,b)=>b.t.views-a.t.views).map(({c,t,m})=>`<tr data-go="#/campaign/${c.id}/posts"><td><b>${esc(c.title)}</b><br><span class="sm">${esc(T(c.talent).name)}</span></td><td class="n">${short(t.views)} views</td><td class="n">${(t.rate*100).toFixed(1)}% eng.</td><td class="n">${t.views?N(m.invoiced/t.views*1000)+' / 1K':'—'}</td></tr>`).join('')}</tbody></table></div>`};
+  <div class="card"><div class="head"><h2>Campaigns by views</h2></div><table class="compact"><tbody>${vis().campaigns.map(c=>({c,t:postTotals(S.posts.filter(p=>p.camp===c.id)),m:campMoney(c)})).filter(x=>x.t.n).sort((a,b)=>b.t.views-a.t.views).map(({c,t,m})=>`<tr data-go="#/campaign/${c.id}/posts"><td><b>${esc(c.title)}</b><br><span class="sm">${esc(T(c.talent).name)}</span></td><td class="n">${short(t.views)} views</td><td class="n">${(t.rate*100).toFixed(1)}% eng.</td><td class="n">${t.views?N(m.invoiced/t.views*1000)+' / 1K':'—'}</td></tr>`).join('')}</tbody></table></div>`};
 };
 
 /* ================= COMPANY ================= */
@@ -1239,10 +1269,10 @@ function waMenu(){WA.flow=null;WA.step='menu';WA.a={};WA.hist=[];say('Hi! What w
 function pick(list,txt,key){txt=txt.trim().toLowerCase();let n=parseInt(txt);if(n>=1&&n<=list.length)return list[n-1];return list.find(x=>key(x).toLowerCase()===txt)||list.find(x=>key(x).toLowerCase().includes(txt))}
 function pdate(t){t=t.trim().toLowerCase();if(t==='today')return TODAY;if(t==='tomorrow')return addDays(TODAY,1);if(t==='yesterday')return addDays(TODAY,-1);if(/^\+\d+$/.test(t))return addDays(TODAY,+t.slice(1));if(dateIn(t))return t;const m=t.match(/^(\d{1,2})\s*([a-z]{3})/);if(m){const k=MON.findIndex(x=>x.toLowerCase()===m[2]);if(k>=0)return '2026-'+String(k+1).padStart(2,'0')+'-'+m[1].padStart(2,'0')}return null}
 function ask(step){WA.hist.push(WA.step);WA.step=step;const a=WA.a;
-  const talents=()=>S.talents.filter(t=>t.status==='active');
+  const talents=()=>vis().talents.filter(t=>t.status==='active');
   switch(step){
    case 'inv_talent':say('Which talent? (tap or type a name)',talents().map(t=>t.name));break;
-   case 'inv_camp':{const cs=S.campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status));if(!cs.length){say(`${T(a.talent).name} has no campaign that can be invoiced. Completed or cancelled campaigns must be reopened in the app first.`);WA.hist.pop();return waMenu()}say('Which campaign?',cs.map(c=>c.title));break}
+   case 'inv_camp':{const cs=vis().campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status));if(!cs.length){say(`${T(a.talent).name} has no campaign that can be invoiced. Completed or cancelled campaigns must be reopened in the app first.`);WA.hist.pop();return waMenu()}say('Which campaign?',cs.map(c=>c.title));break}
    case 'inv_prev':{const b=C(a.camp).brand,last=[...S.invoices].reverse().find(i=>C(i.camp).brand===b);if(last){a.prev=last;say(`Bill to ${last.billName} · ${last.billEmail}?`,['Yes, use this','Edit'])}else ask('inv_name');break}
    case 'inv_name':say('Brand name to bill?');break;
    case 'inv_email':say('Billing email?');break;
@@ -1254,7 +1284,7 @@ function ask(step){WA.hist.push(WA.step);WA.step=step;const a=WA.a;
    case 'inv_confirm':say(`Send ${a.no} ${N(a.total)} to ${a.email}? This emails the brand with your bank details.`,['Yes, send','No, keep draft']);break;
    case 'ex_where':say('Is this for a campaign?',['For a campaign','Talent-level (no campaign)']);break;
    case 'ex_talent':say('Which talent?',talents().map(t=>t.name));break;
-   case 'ex_camp':{const cs=S.campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status));if(!cs.length){say('No open campaign for this talent (completed and cancelled ones are refused). Try talent-level.');WA.hist.pop();return waMenu()}say('Which campaign?',cs.map(c=>c.title));break}
+   case 'ex_camp':{const cs=vis().campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status));if(!cs.length){say('No open campaign for this talent (completed and cancelled ones are refused). Try talent-level.');WA.hist.pop();return waMenu()}say('Which campaign?',cs.map(c=>c.title));break}
    case 'ex_title':say('Expense title? e.g. Shoot day 2');break;
    case 'ex_payee':say('Payee? (or "skip")');break;
    case 'ex_date':say('Date?',['Today','Yesterday']);break;
@@ -1263,7 +1293,7 @@ function ask(step){WA.hist.push(WA.step);WA.step=step;const a=WA.a;
    case 'ex_rec':say('Recoverable from the talent?',['Yes','No']);break;
    case 'ex_more':say(`Added. Total so far ${N(a.lines.reduce((s,l)=>s+l.q*l.u,0))}.`,['Add another','Done']);break;
    case 'ex_sum':{const tot=a.lines.reduce((s,l)=>s+l.q*l.u,0),rec=a.lines.reduce((s,l)=>s+(l.rec?l.q*l.u:0),0);say(`Expense summary\n${a.title}${a.camp?' · '+C(a.camp).title:' · talent-level'}\nTalent: ${T(a.talent).name}\n${a.lines.map(l=>`• ${cap(l.cat)}: ${l.d} ${l.q} × ${N(l.u)}${l.rec?' (recoverable)':''}`).join('\n')}\nTotal ${N(tot)} · recoverable ${N(rec)}${!a.camp&&rec?`\nThis will be added to ${T(a.talent).name}'s advance balance.`:''}`,['Save','Cancel']);break}
-   case 'q_camp':say('Quick expense. Which campaign?',S.campaigns.filter(c=>c.status==='active').map(c=>c.title));break;
+   case 'q_camp':say('Quick expense. Which campaign?',vis().campaigns.filter(c=>c.status==='active').map(c=>c.title));break;
    case 'q_cat':say('Category?',catList.map(cap));break;
    case 'q_line':say('Send "description, amount"\nExample: Driver, 15k');break;
   }
@@ -1280,8 +1310,8 @@ function waHandle(txt){
      if(k.includes('invoice')||k==='1'){WA.flow='invoice';a.lines=[];return ask('inv_talent')}
      if(k.includes('expense')||k==='2'){WA.flow='expense';a.lines=[];return ask('ex_where')}
      return bad_('Please choose: New invoice, New expense or Quick expense.')}
-   case 'inv_talent':{const x=pick(S.talents.filter(t=>t.status==='active'),t,t=>t.name);if(!x)return bad_('I could not find that talent. Pick one of the options.');a.talent=x.id;return ask('inv_camp')}
-   case 'inv_camp':{const x=pick(S.campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status)),t,c=>c.title);if(!x)return bad_('Pick one of the campaigns.');a.camp=x.id;return ask('inv_prev')}
+   case 'inv_talent':{const x=pick(vis().talents.filter(t=>t.status==='active'),t,t=>t.name);if(!x)return bad_('I could not find that talent. Pick one of the options.');a.talent=x.id;return ask('inv_camp')}
+   case 'inv_camp':{const x=pick(vis().campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status)),t,c=>c.title);if(!x)return bad_('Pick one of the campaigns.');a.camp=x.id;return ask('inv_prev')}
    case 'inv_prev':if(lc.startsWith('yes')){a.name=a.prev.billName;a.email=a.prev.billEmail;a.addr=a.prev.billAddr;return ask('inv_line')}return ask('inv_name');
    case 'inv_name':if(!t)return;a.name=t;return ask('inv_email');
    case 'inv_email':if(!emailOk(t))return bad_('That does not look like an email. Example: billing@brand.com');a.email=t;return ask('inv_addr');
@@ -1300,8 +1330,8 @@ function waHandle(txt){
      return bad_('Choose Save draft, Send invoice or Cancel.')}
    case 'inv_confirm':{const inv=I(a.id);if(lc.startsWith('yes')){say('Sending…');doSendQuiet(inv);say(`Sent ${inv.no} to ${inv.email||inv.billEmail}. PDF attached 📎 (simulated).`);slog(`Sent ${inv.no} to ${inv.billEmail} after second confirmation`,'#/invoice/'+inv.id)}else say(`Kept ${inv.no} as a draft.`);return waMenu()}
    case 'ex_where':if(lc.startsWith('for')||lc==='1'){a.scope='camp';return ask('ex_talent')}if(lc.startsWith('talent')||lc==='2'){a.scope='talent';return ask('ex_talent')}return bad_('Choose For a campaign or Talent-level.');
-   case 'ex_talent':{const x=pick(S.talents.filter(t=>t.status==='active'),t,t=>t.name);if(!x)return bad_('I could not find that talent.');a.talent=x.id;return a.scope==='camp'?ask('ex_camp'):ask('ex_title')}
-   case 'ex_camp':{const x=pick(S.campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status)),t,c=>c.title);if(!x)return bad_('Pick one of the campaigns.');a.camp=x.id;return ask('ex_title')}
+   case 'ex_talent':{const x=pick(vis().talents.filter(t=>t.status==='active'),t,t=>t.name);if(!x)return bad_('I could not find that talent.');a.talent=x.id;return a.scope==='camp'?ask('ex_camp'):ask('ex_title')}
+   case 'ex_camp':{const x=pick(vis().campaigns.filter(c=>c.talent===a.talent&&['draft','active'].includes(c.status)),t,c=>c.title);if(!x)return bad_('Pick one of the campaigns.');a.camp=x.id;return ask('ex_title')}
    case 'ex_title':if(!t)return;a.title=t;return ask('ex_payee');
    case 'ex_payee':a.payee=lc==='skip'?'':t;return ask('ex_date');
    case 'ex_date':{const d=pdate(t);if(!d)return bad_('Try: today, yesterday, +0 or 23 Nov.');a.date=d;return ask('ex_cat')}
@@ -1310,7 +1340,7 @@ function waHandle(txt){
    case 'ex_rec':a.cur.rec=lc.startsWith('y');a.lines.push(a.cur);return ask('ex_more');
    case 'ex_more':if(lc.startsWith('add'))return ask('ex_cat');return ask('ex_sum');
    case 'ex_sum':if(lc.startsWith('save'))return saveWaExpense({camp:a.camp||null,talent:a.talent,title:a.title,payee:a.payee,date:a.date,lines:a.lines});return bad_('Choose Save or Cancel.');
-   case 'q_camp':{const x=pick(S.campaigns.filter(c=>c.status==='active'),t,c=>c.title);if(!x)return bad_('Pick one of the campaigns.');a.camp=x.id;a.talent=x.talent;return ask('q_cat')}
+   case 'q_camp':{const x=pick(vis().campaigns.filter(c=>c.status==='active'),t,c=>c.title);if(!x)return bad_('Pick one of the campaigns.');a.camp=x.id;a.talent=x.talent;return ask('q_cat')}
    case 'q_cat':{const x=pick(catList,t,x=>x);if(!x)return bad_('Pick a category.');a.cat=x;return ask('q_line')}
    case 'q_line':{const p=t.split(',').map(s=>s.trim());const am=parseAmt(p[1]);if(p.length!==2||!p[0]||!(am>0))return bad_('Use: description, amount\nExample: Driver, 15k');a.cur={cat:a.cat,d:p[0],q:1,u:am};return ask('ex_rec')}
   }
@@ -1346,6 +1376,310 @@ function waHandleQ(v){
 ACT.waBtn=d=>{waUser(d.v)};
 ACT.waReset=()=>{WA.msgs=[];WA.log=[];WA.started=false;render(true)};
 
+
+/* ---------- tasks + notes ---------- */
+function seedTN(){
+  const team=[
+    {id:'m1',name:'Chidi Okafor',email:'chidi@agency.example',role:'admin',status:'active',pages:[],talents:[]},
+    {id:'m2',name:'Amaka Eze',email:'amaka@agency.example',role:'member',status:'active',pages:['overview','talents','campaigns','invoices','expenses','tasks','insights'],talents:['t1','t2','t6']},
+    {id:'m3',name:'Tosin Adeyemi',email:'tosin@agency.example',role:'member',status:'active',pages:['campaigns','tasks','expenses'],talents:['t1','t2']},
+    {id:'m4',name:'Ngozi Bello',email:'ngozi@agency.example',role:'member',status:'invited',pages:['campaigns','tasks'],talents:['t2']}];
+  const K=(n,camp,title,as,due,status,notes)=>({id:'tk'+n,camp,title,assignee:as,due:due||'',status,notes:notes||'',created:'2026-10-01',completed:status==='done'?(due||'2026-10-15'):''});
+  const tasks=[
+    K(1,'c1','Send creative brief to talent','m1','2026-10-01','done'),
+    K(2,'c1','Chase balance invoice','m1','2026-11-05','todo','Brand said payment is with their finance team.'),
+    K(3,'c1','Confirm TikTok repost approval with brand','m2','2026-11-10','in_progress'),
+    K(4,'c1','Collect final Instagram reel stats for brand report','m2','2026-11-12','todo'),
+    K(5,'c3','Settle talent payout','m1','2026-11-20','todo'),
+    K(6,'c3','File campaign wrap-up report','m3','','todo'),
+    K(7,'c4','Log YouTube vlog link in Posts','m3','2026-09-06','done'),
+    K(8,'c4','Request testimonial from brand','m2','2026-11-15','todo'),
+    K(9,'c6','Get usage rights confirmation in writing','m1','2026-11-03','in_progress','Ask for 6 months, paid social included.'),
+    K(10,'c6','Plan shoot day logistics','m2','2026-11-11','todo'),
+    K(11,'c8','Prepare season recap for MTN','m2','2026-11-18','todo')
+  ];
+  const Nn=(n,camp,title,type,date,att,as,pin,body)=>({id:'nt'+n,camp,title,type,date,attendees:att,author:as,pinned:pin,body,created:date,updated:date});
+  const notes=[
+    Nn(1,'c1','Kickoff call with brand','meeting','2026-10-02','Ada, brand marketing lead, Chidi','m1',true,'# Decisions\n- Three deliverables: one Instagram reel, one TikTok video, one YouTube short\n- Posting window: 6 to 12 October\n- Brand approves drafts within 48 hours\n\n# Money\n- Agreed fee as per the signed brief\n- **Invoice 50% on signing, balance on delivery**\n\n# Open\n- Usage rights beyond 30 days not yet agreed'),
+    Nn(2,'c1','Call: reel approval feedback','call','2026-10-05','Brand marketing lead','m2',false,'Brand likes the hook but wants the logo on screen earlier.\n- Talent to re-cut first 3 seconds\n- Resubmit by Monday'),
+    Nn(3,'c3','Post-campaign review','meeting','2026-09-20','Chowdeck team, Chidi, Amaka','m1',false,'Brand happy with reach. Interested in a second campaign in Q1.\n- Send results summary\n- Talent available from January'),
+    Nn(4,'c6','Usage rights discussion','call','2026-11-03','Bolt marketing','m1',true,'Brand wants to reuse the skit on paid social.\n- We need this in writing before they run it\n- Suggested **6 months**, paid social included\n- Fee for extension to be discussed'),
+    Nn(5,'c4','Travel logistics','general','2026-08-28','','m3',false,'Flights booked by the brand. Talent travels with one videographer.')
+  ];
+  return {team,tasks,notes};
+}
+const TSTAT=[['todo','To do'],['in_progress','In progress'],['done','Done']];
+const TPL=[['Confirm brief and deliverables with brand','start',-3],['Agree commission and send invoice','start',0],['Collect draft content from talent','start',7],['Brand approval of content','start',10],['Log post links in the Posts tab','end',-2],['Chase balance invoice','end',7],['Settle talent payout','end',14]];
+const NTYPES=[['meeting','Meeting'],['call','Call'],['general','General']];
+const tmName=id=>{const m=S.team.find(x=>x.id===id);return m?m.name+(m.status==='deactivated'?' (deactivated)':''):'Unassigned'};
+const tOver=t=>!!t.due&&t.due<TODAY&&t.status!=='done';
+const tStat=s=>({todo:'To do',in_progress:'In progress',done:'Done'}[s]);
+const assignOpts=(campId,cur)=>{const c=campId?C(campId):null;const ok=u=>u.status==='active'&&(u.role==='admin'||((u.pages||[]).includes('tasks')&&(!c||(u.talents||[]).includes(c.talent))));return [['','Unassigned'],...S.team.filter(u=>ok(u)||u.id===cur).map(u=>[u.id,u.name+(u.status==='deactivated'?' (deactivated)':'')])]};
+const campOpts=cur=>vis().campaigns.map(c=>[c.id,c.title+' · '+T(c.talent).name]);
+function md(s){
+  const inl=x=>x.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[\s(])\*(?!\s)(.+?)\*/g,'$1<i>$2</i>').replace(/(https?:\/\/[^\s<]+)/g,'<a class="link" href="$1" target="_blank" rel="noopener">$1</a>');
+  let out='',inList=false;
+  esc(s||'').split('\n').forEach(l=>{
+    const li=l.match(/^\s*[-*]\s+(.*)/),h=l.match(/^#{1,3}\s+(.*)/);
+    if(li){if(!inList){out+='<ul>';inList=true}out+='<li>'+inl(li[1])+'</li>';return}
+    if(inList){out+='</ul>';inList=false}
+    if(h)out+='<h4>'+inl(h[1])+'</h4>';else if(l.trim())out+='<p>'+inl(l)+'</p>';
+  });
+  return out+(inList?'</ul>':'');
+}
+const plain=s=>(s||'').replace(/[#*\-]/g,'').replace(/\s+/g,' ').trim();
+
+/* --- task rows --- */
+function taskRow(t,showCamp){
+  const od=tOver(t),c=C(t.camp);
+  return `<tr><td style="width:34px"><input type="checkbox" ${t.status==='done'?'checked':''} data-act="taskTick" data-id="${t.id}" aria-label="Done"></td>
+  <td><a class="link" style="${t.status==='done'?'text-decoration:line-through;color:var(--ink-muted)':''}" data-act="taskEdit" data-id="${t.id}">${esc(t.title)}</a>${t.notes?`<br><span class="sm">${esc(t.notes.slice(0,90))}</span>`:''}${showCamp&&c?`<br><span class="sm">${L('#/campaign/'+c.id+'/tasks',c.title)} · ${esc(T(c.talent).name)}</span>`:''}</td>
+  <td>${esc(tmName(t.assignee))}</td>
+  <td>${t.due?fds(t.due):'<span class="sm">No date</span>'} ${od?pill('over','Overdue'):''}</td>
+  <td><button class="btn sm" data-act="taskCycle" data-id="${t.id}">${tStat(t.status)} ▸</button></td>
+  <td><button class="rm" data-act="taskDel" data-id="${t.id}" aria-label="Delete task">×</button></td></tr>`;
+}
+function taskTable(list,showCamp){
+  return `<table class="tt"><thead><tr><th style="width:34px"></th><th>Task</th><th style="width:150px">Assignee</th><th style="width:150px">Due</th><th style="width:130px">Status</th><th style="width:40px"></th></tr></thead><tbody>${list.map(t=>taskRow(t,showCamp)).join('')||'<tr><td colspan="6" class="empty">No tasks.</td></tr>'}</tbody></table>`;
+}
+const byDue=(a,b)=>(a.due||'9999').localeCompare(b.due||'9999')||a.title.localeCompare(b.title);
+
+/* --- campaign tasks tab --- */
+function tasksTab(c){
+  const list=S.tasks.filter(t=>t.camp===c.id),open=list.filter(t=>t.status!=='done'),over=list.filter(tOver),done=list.filter(t=>t.status==='done');
+  const closed=['completed','cancelled'].includes(c.status);
+  const groups=TSTAT.map(([k,l])=>{const g=list.filter(t=>t.status===k).sort(k==='done'?(a,b)=>(b.completed||'').localeCompare(a.completed||''):byDue);if(!g.length)return '';
+    return `<div class="label" style="margin:18px 0 8px">${l} · ${g.length}</div>${taskTable(k==='done'?g.slice(0,20):g,false)}${k==='done'&&g.length>20?`<div class="sm" style="padding:8px">Showing the 20 most recent of ${g.length}.</div>`:''}`}).join('');
+  return `${closed&&open.length?`<div class="banner" style="margin-bottom:var(--s-3)"><span>Campaign is ${c.status}, <b>${open.length} task${open.length>1?'s':''}</b> still open.</span></div>`:''}
+  <div class="qa" style="grid-template-columns:minmax(0,1fr) 170px 150px auto auto">
+    <div class="field"><input id="tq_t" placeholder="Add a task, press Enter"></div>
+    <div class="field">${'<select id="tq_a">'+assignOpts(c.id,'').map(([k,l])=>`<option value="${k}">${esc(l)}</option>`).join('')+'</select>'}</div>
+    <div class="field"><input id="tq_d" type="date"></div>
+    <button class="btn pri" id="tq_add" data-act="taskAdd" data-id="${c.id}">Add task</button>
+    <button class="btn" data-act="taskTpl" data-id="${c.id}">From template</button>
+  </div>
+  <div class="head" style="margin-bottom:var(--s-2)"><span class="label">Open ${open.length} · Overdue ${over.length} · Done ${done.length}</span></div>
+  ${list.length?groups:'<div class="empty">No tasks yet. Add one above or start from a template.</div>'}`;
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='tq_t'){const b=$('#tq_add');b&&b.click()}});
+ACT.taskAdd=d=>{const ti=val('tq_t');if(!ti)return bad('tq_t','Enter a task title');
+  S.tasks.push({id:uid('tk'),camp:d.id,title:ti,assignee:val('tq_a'),due:val('tq_d'),status:'todo',notes:'',created:TODAY,completed:''});save();toast('Task added');render(true)};
+ACT.taskTick=d=>{const t=S.tasks.find(x=>x.id===d.id);t.status=t.status==='done'?'todo':'done';t.completed=t.status==='done'?TODAY:'';save();render(true)};
+ACT.taskCycle=d=>{const t=S.tasks.find(x=>x.id===d.id),o=['todo','in_progress','done'];t.status=o[(o.indexOf(t.status)+1)%3];t.completed=t.status==='done'?TODAY:'';save();render(true)};
+ACT.taskDel=d=>confirmBox('Delete this task?','<p>This removes the task.</p>','Delete',()=>{S.tasks=S.tasks.filter(x=>x.id!==d.id);save();toast('Task deleted');render(true)},true);
+function taskForm(t,camp,title){
+  const isNew=!t;t=t||{title:title||'',assignee:'',due:'',status:'todo',notes:''};
+  modal(`<h2>${isNew?'New task':'Edit task'}</h2>
+    ${isNew&&!camp?sel('Campaign','tf_c',campOpts(),(vis().campaigns[0]||{}).id):''}
+    ${fld('Title','tf_t',t.title)}
+    <div class="two">${sel('Assignee','tf_a',assignOpts(t.camp||camp,t.assignee),t.assignee)}${fld('Due date','tf_d',t.due,{type:'date'})}</div>
+    ${sel('Status','tf_s',TSTAT,t.status)}
+    <div class="field ta"><label for="tf_n">Notes</label><textarea id="tf_n" rows="3">${esc(t.notes)}</textarea></div>
+    <div class="btnrow">${isNew?'':`<button class="btn danger" data-act="taskDel" data-id="${t.id}">Delete</button><span style="flex:1"></span>`}<button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="tf_ok">${isNew?'Add task':'Save'}</button></div>`,
+    {mount:m=>$('#tf_ok',m).onclick=()=>{
+      if(!val('tf_t'))return bad('tf_t','Title is required');
+      const o={title:val('tf_t'),assignee:val('tf_a'),due:val('tf_d'),status:val('tf_s'),notes:val('tf_n')};
+      if(isNew){S.tasks.push({id:uid('tk'),camp:camp||val('tf_c'),...o,created:TODAY,completed:o.status==='done'?TODAY:''})}
+      else{const was=t.status;Object.assign(t,o);if(o.status==='done'&&was!=='done')t.completed=TODAY;if(o.status!=='done')t.completed=''}
+      save();closeModal();toast(isNew?'Task added':'Task saved');render(true)}});
+}
+ACT.taskEdit=d=>taskForm(S.tasks.find(x=>x.id===d.id));
+ACT.taskNew=d=>taskForm(null,d.id||'');
+ACT.taskTpl=d=>{const c=C(d.id);
+  const calc=([ti,from,off])=>{const base=from==='start'?c.start:c.end;return {ti,due:base?addDays(base,off):''}};
+  const items=TPL.map(calc),miss=items.filter(i=>!i.due).length;
+  modal(`<h2>Add from template</h2><p>Standard campaign checklist for ${esc(c.title)}. Dates are counted from the campaign start and end.</p>
+    <ul>${items.map(i=>`<li class="ok">${esc(i.ti)} <span class="sm">· ${i.due?fds(i.due):'no date'}</span></li>`).join('')}</ul>
+    ${miss?`<p class="dn">The campaign has no start or end date, so ${miss} task${miss>1?'s are':' is'} added without a due date.</p>`:''}
+    <div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="tp_ok">Add ${items.length} tasks</button></div>`,
+    {mount:m=>$('#tp_ok',m).onclick=()=>{items.forEach(i=>S.tasks.push({id:uid('tk'),camp:c.id,title:i.ti,assignee:'',due:i.due,status:'todo',notes:'',created:TODAY,completed:''}));save();closeModal();toast(items.length+' tasks added');render(true)}})};
+
+/* --- Tasks page --- */
+let TKF={as:'all',camp:'all',when:'all',st:'open'};
+ACT.tkWhen=d=>{TKF.when=d.v;render(true)};ACT.tkSt=d=>{TKF.st=d.v;render(true)};
+PAGES.tasks=()=>{
+  const wk=addDays(TODAY,7);
+  let l=S.tasks.filter(t=>{const c=C(t.camp);
+    if(TKF.camp==='all'&&c&&c.status==='cancelled'&&t.status!=='done')return false;
+    if(TKF.as!=='all'&&(TKF.as==='none'?t.assignee:t.assignee!==TKF.as))return false;
+    if(TKF.camp!=='all'&&t.camp!==TKF.camp)return false;
+    if(TKF.st==='open'&&t.status==='done')return false;if(TKF.st==='done'&&t.status!=='done')return false;
+    if(TKF.when==='overdue'&&!tOver(t))return false;if(TKF.when==='today'&&t.due!==TODAY)return false;
+    if(TKF.when==='week'&&!(t.due&&t.due>=TODAY&&t.due<=wk))return false;if(TKF.when==='nodate'&&t.due)return false;return true}).sort(byDue);
+  const bucket=t=>!t.due?'No date':t.due<TODAY?'Overdue':t.due===TODAY?'Due today':t.due<=wk?'This week':'Later';
+  const order=['Overdue','Due today','This week','Later','No date'];
+  const body=TKF.st==='done'?taskTable(l,true):order.map(b=>{const g=l.filter(t=>bucket(t)===b);return g.length?`<div class="label" style="margin:18px 0 8px">${b} · ${g.length}</div>${taskTable(g,true)}`:''}).join('')||'<div class="empty">No tasks match these filters.</div>';
+  const all=S.tasks.filter(t=>t.status!=='done');
+  return {title:'Tasks',nav:'tasks',html:`<div class="stat3" style="margin-bottom:var(--s-3)">
+    <div class="card"><div class="label">Open</div><div class="fig-big" style="font-size:var(--t-2xl);font-weight:700;margin-top:6px">${all.length}</div></div>
+    <div class="card"><div class="label">Overdue</div><div style="font-size:var(--t-2xl);font-weight:700;margin-top:6px;color:${all.some(tOver)?'var(--owed)':'inherit'}">${all.filter(tOver).length}</div></div>
+    <div class="card"><div class="label">Due this week</div><div style="font-size:var(--t-2xl);font-weight:700;margin-top:6px">${all.filter(t=>t.due&&t.due>=TODAY&&t.due<=wk).length}</div></div>
+    <div class="card"><div class="label">Unassigned</div><div style="font-size:var(--t-2xl);font-weight:700;margin-top:6px">${all.filter(t=>!t.assignee).length}</div></div></div>
+  <div class="card"><div class="toolbar">
+    <div class="field sm" style="width:190px">${'<select id="tfa"><option value="all">Everyone</option><option value="none">Unassigned</option>'+S.team.map(m=>`<option value="${m.id}" ${TKF.as===m.id?'selected':''}>${esc(m.name)}</option>`).join('')+'</select>'}</div>
+    <div class="field sm" style="width:230px">${'<select id="tfc"><option value="all">All campaigns</option>'+vis().campaigns.map(c=>`<option value="${c.id}" ${TKF.camp===c.id?'selected':''}>${esc(c.title)}</option>`).join('')+'</select>'}</div>
+    ${chips([['all','Any date'],['overdue','Overdue'],['today','Due today'],['week','This week'],['nodate','No date']],TKF.when,'tkWhen')}
+    <div style="flex:1"></div>${chips([['open','Open'],['done','Done']],TKF.st,'tkSt')}
+    ${isAdm()?'<button class="btn" data-go="#/team">Team</button>':''}<button class="btn pri" data-act="taskNew">New task</button></div>${body}</div>`,
+    mount:r=>{$('#tfa',r).onchange=e=>{TKF.as=e.target.value;render(true)};$('#tfc',r).onchange=e=>{TKF.camp=e.target.value;render(true)}}};
+};
+
+/* --- notes --- */
+let NF={type:'all',q:''};
+ACT.nfType=d=>{NF.type=d.v;render(true)};
+document.addEventListener('input',e=>{if(e.target.id==='nq'){NF.q=e.target.value;render(true);const i=$('#nq');if(i){i.focus();i.setSelectionRange(i.value.length,i.value.length)}}});
+function notesTab(c){
+  if(NF.camp!==c.id)NF={type:'all',q:'',camp:c.id};
+  const all=S.notes.filter(n=>n.camp===c.id);
+  const q=NF.q.toLowerCase().trim();
+  const l=all.filter(n=>(NF.type==='all'||n.type===NF.type)&&(!q||(n.title+' '+n.body+' '+n.attendees).toLowerCase().includes(q)))
+    .sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0)||b.date.localeCompare(a.date));
+  return `<div class="toolbar">${chips([['all','All'],...NTYPES],NF.type,'nfType')}
+    <div class="search" style="margin:0;max-width:260px"><input id="nq" placeholder="Search notes" value="${esc(NF.q)}"></div><div style="flex:1"></div>
+    <button class="btn pri" data-act="noteForm" data-camp="${c.id}">New note</button></div>
+  ${l.map(n=>`<div class="notecard" data-act="noteOpen" data-id="${n.id}"><div class="nh"><b>${n.pinned?'📌 ':''}${esc(n.title)}</b>${pill(n.type==='meeting'?'act':n.type==='call'?'part':'draft',cap(n.type))}</div>
+    <div class="sm">${fd(n.date)} · ${esc(tmName(n.author).replace('Unassigned','Unattributed'))}${n.attendees?' · '+esc(n.attendees):''}${n.updated&&n.updated!==n.created?' · edited '+fds(n.updated):''}</div>
+    <div class="nx">${esc(plain(n.body).slice(0,170))}${plain(n.body).length>170?'…':''}</div></div>`).join('')||`<div class="empty">${all.length?'No notes match.':'No notes yet. Use New note for meeting notes, call summaries and decisions.'}</div>`}`;
+}
+function noteForm(n,camp){
+  const isNew=!n;n=n||{title:'',type:'meeting',date:TODAY,attendees:'',author:'',body:''};
+  modal(`<h2>${isNew?'New note':'Edit note'}</h2>
+    ${fld('Title','nf_t',n.title,{ph:'e.g. Kickoff call with brand'})}
+    <div class="two">${sel('Type','nf_y',NTYPES,n.type)}${fld('Date','nf_d',n.date,{type:'date'})}</div>
+    ${fld('Attendees','nf_a',n.attendees,{ph:'Names or companies'})}
+    <div class="field ta" style="min-height:200px"><label for="nf_b">Note</label><textarea id="nf_b" rows="9" placeholder="# Decisions&#10;- ...">${esc(n.body)}</textarea></div>
+    <p class="sm">Supports # headings, **bold**, *italic*, - bullet lists and links. Notes are internal and never appear on invoices or emails.</p>
+    <div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="nf_ok">${isNew?'Save note':'Save changes'}</button></div>`,
+    {wide:true,mount:m=>$('#nf_ok',m).onclick=()=>{
+      if(!val('nf_t'))return bad('nf_t','Title is required');
+      const o={title:val('nf_t'),type:val('nf_y'),date:val('nf_d')||TODAY,attendees:val('nf_a'),body:$('#nf_b',m).value};
+      if(isNew)S.notes.push({id:uid('nt'),camp,...o,author:S.me,pinned:false,created:TODAY,updated:TODAY});else Object.assign(n,o,{updated:TODAY});
+      save();closeModal();toast(isNew?'Note saved':'Note updated');render(true)}});
+}
+ACT.noteForm=d=>noteForm(null,d.camp);
+ACT.noteEdit=d=>noteForm(S.notes.find(x=>x.id===d.id));
+ACT.noteOpen=d=>{const n=S.notes.find(x=>x.id===d.id),c=C(n.camp);
+  modal(`<h2>${n.pinned?'📌 ':''}${esc(n.title)}</h2>
+    <div class="sm">${cap(n.type)} · ${fd(n.date)} · ${esc(tmName(n.author).replace('Unassigned','Unattributed'))}${n.attendees?' · '+esc(n.attendees):''}<br>${esc(c.title)}${n.updated!==n.created?' · edited '+fd(n.updated):''}</div>
+    <div class="md">${md(n.body)||'<p class="sm">No text.</p>'}</div>
+    <div class="btnrow">${isAdm()||n.author===S.me?`<button class="btn danger" data-act="noteDel" data-id="${n.id}">Delete</button>`:''}<span style="flex:1"></span>
+    <button class="btn" data-act="notePin" data-id="${n.id}">${n.pinned?'Unpin':'Pin'}</button>${can('tasks')?`<button class="btn" data-act="noteTask" data-id="${n.id}">Create task</button>`:''}${isAdm()||n.author===S.me?`<button class="btn" data-act="noteEdit" data-id="${n.id}">Edit</button>`:''}<button class="btn pri" data-act="closeModal">Close</button></div>`,{wide:true})};
+ACT.notePin=d=>{const n=S.notes.find(x=>x.id===d.id);n.pinned=!n.pinned;save();closeModal();toast(n.pinned?'Pinned':'Unpinned');render(true)};
+ACT.noteTask=d=>{const n=S.notes.find(x=>x.id===d.id);closeModal();taskForm(null,n.camp,n.title)};
+ACT.noteDel=d=>confirmBox('Delete this note?','<p>The note is removed permanently.</p>','Delete',()=>{S.notes=S.notes.filter(x=>x.id!==d.id);save();toast('Note deleted');render(true)},true);
+
+/* --- campaign overview summary --- */
+function ovTN(c){
+  const ts=S.tasks.filter(t=>t.camp===c.id),open=ts.filter(t=>t.status!=='done').sort(byDue),ns=S.notes.filter(n=>n.camp===c.id).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+  return `<div class="g22" style="margin-top:20px"><div><div class="label">Tasks · ${open.length} open, ${ts.filter(tOver).length} overdue</div>
+    <div style="margin-top:10px">${open.slice(0,4).map(t=>`<div class="fig" style="display:flex;justify-content:space-between;gap:12px;padding:5px 0"><span>${esc(t.title)}</span><span>${t.due?fds(t.due):'—'} ${tOver(t)?pill('over','Overdue'):''}</span></div>`).join('')||'<span class="sm">Nothing open.</span>'}</div>
+    <div style="margin-top:8px">${L('#/campaign/'+c.id+'/tasks','All tasks')}</div></div>
+    <div><div class="label">Latest notes</div><div style="margin-top:10px">${ns.map(n=>`<div class="fig" style="display:flex;justify-content:space-between;gap:12px;padding:5px 0"><span>${esc(n.title)}</span><span>${fds(n.date)}</span></div>`).join('')||'<span class="sm">No notes yet.</span>'}</div>
+    <div style="margin-top:8px">${L('#/campaign/'+c.id+'/notes','All notes')}</div></div></div>`;
+}
+
+/* ---------- team + access (simple RBAC for the prototype) ---------- */
+const PAGE_LIST=[['overview','Overview'],['talents','Talents'],['campaigns','Campaigns'],['invoices','Invoices'],['expenses','Expenses'],['advances','Advances'],['payouts','Payouts'],['insights','Insights'],['tasks','Tasks'],['whatsapp','WhatsApp']];
+const ROUTE_PAGE={overview:'overview',talents:'talents',talent:'talents',campaigns:'campaigns',campaign:'campaigns',invoices:'invoices',invoice:'invoices',expenses:'expenses',expense:'expenses',advances:'advances',payouts:'payouts',payout:'payouts',insights:'insights',tasks:'tasks',whatsapp:'whatsapp',company:'@admin',team:'@admin'};
+const CAMP_TAB_PAGE={overview:'campaigns',notes:'campaigns',edit:'campaigns',expenses:'expenses',invoices:'invoices',payouts:'payouts',posts:'insights',tasks:'tasks'};
+const TALENT_TAB_PAGE={campaigns:'talents',advances:'advances',expenses:'expenses',payouts:'payouts',posts:'insights'};
+const PRESETS={'Finance':['overview','invoices','expenses','advances','payouts'],'Account manager':['talents','campaigns','tasks','insights','expenses'],'Operations':['campaigns','tasks','expenses','invoices']};
+const meU=()=>S.team.find(u=>u.id===S.me&&u.status==='active')||S.team.find(u=>u.role==='admin'&&u.status==='active')||S.team[0];
+const isAdm=()=>meU().role==='admin';
+const can=pg=>isAdm()||(pg!=='@admin'&&(meU().pages||[]).includes(pg));
+const seesT=id=>isAdm()||(meU().talents||[]).includes(id);
+const activeAdmins=()=>S.team.filter(u=>u.role==='admin'&&u.status==='active');
+const firstPage=()=>{const f=PAGE_LIST.find(([k])=>can(k));return f?f[0]:null};
+/* the scoped view of the data for the signed-in user: talent scope plus page ownership */
+function vis(){
+  const u=meU();if(u.role==='admin')return S;
+  const A=pg=>(u.pages||[]).includes(pg);
+  const tl=S.talents.filter(t=>(u.talents||[]).includes(t.id)),ti=new Set(tl.map(t=>t.id));
+  const cs=S.campaigns.filter(c=>ti.has(c.talent)),ci=new Set(cs.map(c=>c.id));
+  const inv=A('invoices')?S.invoices.filter(i=>ci.has(i.camp)):[],ii=new Set(inv.map(i=>i.id));
+  return {...S,talents:tl,campaigns:cs,invoices:inv,payments:S.payments.filter(p=>ii.has(p.inv)),
+    expenses:A('expenses')?S.expenses.filter(e=>ti.has(e.talent)):[],ledger:A('advances')?S.ledger.filter(l=>ti.has(l.talent)):[],
+    payouts:A('payouts')?S.payouts.filter(p=>ti.has(p.talent)):[],posts:A('insights')?S.posts.filter(p=>ci.has(p.camp)):[],
+    accounts:A('insights')?S.accounts.filter(a=>ti.has(a.talent)):[],tasks:A('tasks')?S.tasks.filter(t=>ci.has(t.camp)):[],
+    notes:A('campaigns')?S.notes.filter(n=>ci.has(n.camp)):[]};
+}
+function ensureTalent(){if(!seesT(LAST_T)){const f=vis().talents[0];if(f)LAST_T=f.id}}
+function applyAccess(){
+  $$('.nav button[data-nav]').forEach(b=>{const k=b.dataset.nav;b.style.display=can(k==='company'||k==='team'?'@admin':k)?'':'none'});
+  $$('.nav').forEach(nav=>{let lab=null,any=false;const flush=()=>{if(lab)lab.style.display=any?'':'none'};
+    [...nav.children].forEach(el=>{if(el.classList.contains('label')){flush();lab=el;any=false}else if(el.matches('button[data-nav]')&&el.style.display!=='none')any=true});flush()});
+  const mp={Campaign:'campaigns',Invoice:'invoices',Expense:'expenses',Payout:'payouts',Advance:'advances',Talent:'@admin',Task:'tasks'};
+  $$('#crMenu button').forEach(b=>{const pg=mp[b.textContent.trim()];if(pg)b.style.display=can(pg)?'':'none'});
+  const u=meU();$('#vaBtn').textContent='Viewing as '+u.name.split(' ')[0]+' ▾';
+}
+$('#vaBtn').onclick=e=>{e.stopPropagation();const m=$('#vaMenu');
+  m.innerHTML='<div class="sm" style="padding:6px 12px 8px">Demo: switch person to see what they can access</div>'+S.team.filter(u=>u.status==='active').map(u=>`<button data-act="viewAs" data-id="${u.id}">${esc(u.name)}<small>${u.role==='admin'?'Admin':'Member'}</small></button>`).join('');
+  m.classList.toggle('on')};
+ACT.viewAs=d=>{S.me=d.id;save();ensureTalent();toast('Now viewing as '+meU().name);const f=firstPage();location.hash=can('overview')?'#/overview':(f?'#/'+f:'#/overview');render()};
+function accessBanner(p0){
+  const u=meU();if(u.role==='admin')return '';
+  const adm=activeAdmins()[0];
+  return `<div class="banner"><span><b>Demo: viewing as ${esc(u.name)}</b> (Member). Pages: ${(u.pages||[]).map(k=>cap(k)).join(', ')||'none'}. Talents: ${(u.talents||[]).length} assigned.${p0==='overview'?' Overview figures on this page are sample company-wide data; the real app totals only your talents.':''}</span><button class="btn sm" data-act="viewAs" data-id="${adm?adm.id:'m1'}">Back to admin</button></div>`;
+}
+PAGES.noaccess=()=>{const f=firstPage();return {title:'No access',nav:'',html:`<div class="card"><div class="empty"><b>You don't have access to this page.</b><br>${f?'Ask an admin if you need it.':'Ask an admin for access.'}${f?`<br><br><button class="btn pri" data-go="#/${f}">Go to ${cap(f)}</button>`:''}</div></div>`}};
+
+/* ---------- Team page (admin) ---------- */
+PAGES.team=()=>{
+  const open=u=>S.tasks.filter(t=>t.assignee===u.id&&t.status!=='done').length;
+  const rows=S.team.map(u=>`<tr><td><b>${esc(u.name)}</b><br><span class="sm">${esc(u.email||'—')}</span></td>
+    <td>${pill(u.role==='admin'?'act':'draft',u.role==='admin'?'Admin':'Member')}</td>
+    <td>${u.status==='active'?pill('act','Active'):u.status==='invited'?pill('sending','Invited'):pill('void','Deactivated')}</td>
+    <td>${u.role==='admin'?'All pages':(u.pages||[]).length+' of '+PAGE_LIST.length+'<br><span class="sm">'+esc((u.pages||[]).map(cap).join(', '))+'</span>'}</td>
+    <td>${u.role==='admin'?'All talents':(u.talents||[]).length+' of '+S.talents.length+'<br><span class="sm">'+esc((u.talents||[]).map(id=>(T(id)||{}).name).filter(Boolean).join(', '))+'</span>'}</td>
+    <td class="n"><div class="acts" style="justify-content:flex-end">
+      <button class="btn sm" data-act="tmEdit" data-id="${u.id}">Edit</button>
+      ${u.status==='invited'?`<button class="btn sm" data-act="tmAccept" data-id="${u.id}">Accept (demo)</button><button class="btn sm" data-act="tmResend" data-id="${u.id}">Resend</button><button class="btn sm" data-act="tmRevoke" data-id="${u.id}">Revoke</button>`:''}
+      ${u.status==='active'?`<button class="btn sm" data-act="tmDeact" data-id="${u.id}">Deactivate</button>`:''}
+      ${u.status==='deactivated'?`<button class="btn sm" data-act="tmReact" data-id="${u.id}">Reactivate</button>`:''}</div>${open(u)&&u.status!=='invited'?`<div class="sm" style="text-align:right;margin-top:4px">${open(u)} open task${open(u)>1?'s':''}</div>`:''}</td></tr>`).join('');
+  return {title:'Team',nav:'team',html:`<div class="card"><div class="ph2"><div><h2>Team</h2><div class="sm" style="margin-top:6px">Invite colleagues, choose the pages they can open and the talents they can see. Admins see everything and manage the team.</div></div><div class="acts"><button class="btn pri" data-act="tmNew">Invite member</button></div></div></div>
+  <div class="card"><table><thead><tr><th>Person</th><th>Role</th><th>Status</th><th>Pages</th><th>Talents</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+  <div class="note"><b>Prototype note:</b> invite emails are simulated. Use <b>Accept (demo)</b> to activate an invited person, then <b>Viewing as</b> in the top bar to see what they can access.</div>`};
+};
+function teamForm(u){
+  const isNew=!u;u=u||{name:'',email:'',role:'member',pages:['campaigns','tasks'],talents:[]};
+  const chk=(att,k,l,on)=>`<label class="check"><input type="checkbox" ${att}="${k}" ${on?'checked':''}>${esc(l)}</label>`;
+  modal(`<h2>${isNew?'Invite member':'Edit member'}</h2>
+    <div class="two">${fld('Name','tm_n',u.name)}${fld('Email','tm_e',u.email,{ro:!isNew,type:'email'})}</div>
+    ${sel('Role','tm_r',[['member','Member: only the pages and talents ticked below'],['admin','Admin: everything, manages the team']],u.role)}
+    <div id="tm_acc" style="display:${u.role==='admin'?'none':'flex'};flex-direction:column;gap:14px">
+      <div><div class="label" style="margin-bottom:8px">Pages <span class="sm">· quick fill:</span> ${Object.keys(PRESETS).map(p=>`<button class="btn sm" data-act="tmPreset" data-v="${p}">${p}</button>`).join(' ')}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${PAGE_LIST.map(([k,l])=>chk('data-pg',k,l,(u.pages||[]).includes(k))).join('')}</div></div>
+      <div><div class="label" style="margin-bottom:8px">Talents they can see <button class="btn sm" data-act="tmAllT">Select all</button></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${S.talents.map(t=>chk('data-tl',t.id,t.name,(u.talents||[]).includes(t.id))).join('')}</div></div>
+      <p class="sm">Company settings and Team are admin-only. A ticked page gives full use of that page, for the ticked talents only.</p></div>
+    ${isNew?'<p class="sm">They get an email with a link (valid 7 days, single use) to set a password.</p>':''}
+    <div class="btnrow"><button class="btn" data-act="closeModal">Cancel</button><button class="btn pri" id="tm_ok">${isNew?'Send invite':'Save changes'}</button></div>`,
+    {wide:true,mount:m=>{
+      $('#tm_r',m).onchange=e=>{$('#tm_acc',m).style.display=e.target.value==='admin'?'none':'flex'};
+      $('#tm_ok',m).onclick=()=>{
+        const nm=val('tm_n'),em=val('tm_e').toLowerCase(),role=val('tm_r');
+        if(!nm)return bad('tm_n','Name is required');
+        if(!emailOk(em))return bad('tm_e','Enter a valid email');
+        if(isNew&&S.team.some(x=>(x.email||'').toLowerCase()===em))return bad('tm_e','Already on the team');
+        if(!isNew&&u.role==='admin'&&role!=='admin'&&activeAdmins().length===1&&u.status==='active')return bad('tm_r','There must be at least one active admin');
+        const pages=$$('[data-pg]',m).filter(x=>x.checked).map(x=>x.dataset.pg),talents=$$('[data-tl]',m).filter(x=>x.checked).map(x=>x.dataset.tl);
+        if(role==='member'&&!pages.length)return toast('Tick at least one page, or the member sees nothing',true);
+        const o={name:nm,email:em,role,pages:role==='admin'?[]:pages,talents:role==='admin'?[]:talents};
+        if(isNew)S.team.push({id:uid('m'),...o,status:'invited',invitedBy:S.me});else Object.assign(u,o);
+        save();closeModal();toast(isNew?'Invite sent to '+em+' (simulated)':'Changes saved');render(true);applyAccess()}}});
+}
+ACT.tmNew=()=>teamForm(null);
+ACT.tmEdit=d=>teamForm(S.team.find(x=>x.id===d.id));
+ACT.tmPreset=d=>{const m=$('.modal');$$('[data-pg]',m).forEach(x=>x.checked=PRESETS[d.v].includes(x.dataset.pg))};
+ACT.tmAllT=()=>{const m=$('.modal');const b=$$('[data-tl]',m);const all=b.every(x=>x.checked);b.forEach(x=>x.checked=!all)};
+ACT.tmAccept=d=>{const u=S.team.find(x=>x.id===d.id);u.status='active';save();toast(u.name+' accepted the invite (demo). Use Viewing as to see their access.');render(true)};
+ACT.tmResend=d=>{toast('A new invite link was sent. The old link no longer works (simulated).')};
+ACT.tmRevoke=d=>confirmBox('Revoke this invite?','<p>The link stops working and the person is removed from the list.</p>','Revoke',()=>{S.team=S.team.filter(x=>x.id!==d.id);save();toast('Invite revoked');render(true)},true);
+ACT.tmDeact=d=>{const u=S.team.find(x=>x.id===d.id);
+  if(u.role==='admin'&&activeAdmins().length===1)return toast('There must be at least one active admin',true);
+  const n=S.tasks.filter(t=>t.assignee===u.id&&t.status!=='done').length;
+  confirmBox('Deactivate '+esc(u.name)+'?','<p>They are signed out immediately and cannot sign in. Their name stays on the records they created.'+(n?` <b>${n} open task${n>1?'s':''}</b> assigned to them will need reassigning.`:'')+'</p>','Deactivate',()=>{u.status='deactivated';if(S.me===u.id)S.me=activeAdmins()[0].id;save();toast(u.name+' deactivated');render(true);applyAccess()},true)};
+ACT.tmReact=d=>{const u=S.team.find(x=>x.id===d.id);u.status='invited';save();toast('A fresh invite was sent; they set a new password (simulated).');render(true)};
 
 if(!location.hash)location.hash='#/overview';
 render();
